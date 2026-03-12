@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Libro Profundo Vol. 6 - Capstone, Papers y Ruta de Dominio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root { --paper:#fffaf2; --ink:#17231c; --muted:#596a60; --accent:#0f766e; --border:rgba(23,35,28,0.12); --shadow:0 20px 55px rgba(23,35,28,0.12); }
+    *{box-sizing:border-box} body{margin:0;color:var(--ink);font-family:"Source Serif 4",serif;background:radial-gradient(circle at top right,rgba(15,118,110,.12),transparent 24%),linear-gradient(180deg,#f7f4ed 0%,#efe7da 100%)}
+    .layout{display:grid;grid-template-columns:320px 1fr;min-height:100vh}.sidebar{position:sticky;top:0;height:100vh;overflow-y:auto;padding:24px;background:rgba(252,248,240,.94);border-right:1px solid var(--border)}.content{padding:32px}
+    .card,.hero,.chapter{background:var(--paper);border:1px solid rgba(255,255,255,.5);border-radius:24px;box-shadow:var(--shadow)}.card{padding:18px;margin-bottom:16px}.hero{padding:28px;margin-bottom:20px}.chapter{padding:34px;margin-bottom:22px}
+    .eyebrow{font-family:"IBM Plex Sans",sans-serif;text-transform:uppercase;letter-spacing:.18em;font-size:.72rem;color:var(--accent);font-weight:700}
+    h1,h2,h3,h4{font-family:"Source Serif 4",serif;margin-top:0} p,li{line-height:1.82;font-size:1.05rem}.muted{color:var(--muted);font-family:"IBM Plex Sans",sans-serif}
+    .toc{display:grid;gap:10px}.toc a{display:block;text-decoration:none;color:var(--ink);background:rgba(15,118,110,.06);border-radius:16px;padding:12px 14px;font-family:"IBM Plex Sans",sans-serif}
+    pre{background:#12211d;color:#eefcf8;border-radius:18px;padding:18px;overflow-x:auto;font-family:"IBM Plex Mono",monospace;font-size:.92rem;line-height:1.6} code{font-family:"IBM Plex Mono",monospace;font-size:.92em}
+    .callout{border-left:4px solid var(--accent);padding:10px 0 10px 16px;background:rgba(15,118,110,.05);border-radius:0 14px 14px 0;margin:18px 0}
+    .exercise{margin-top:24px;padding:18px 20px;border-radius:18px;background:rgba(199,140,47,.08);border:1px solid rgba(199,140,47,.16)}
+    @media (max-width:1100px){.layout{grid-template-columns:1fr}.sidebar{position:static;height:auto}}
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="card">
+        <p class="eyebrow">Libro largo</p>
+        <h1>Volumen 6</h1>
+        <p class="muted">Capstone final, lectura de papers, portafolio y ruta de dominio a largo plazo.</p>
+      </div>
+      <div class="card">
+        <h3>Tabla de contenido</h3>
+        <nav class="toc">
+          <a href="#cap21">Capitulo 21. El capstone completo</a>
+          <a href="#cap22">Capitulo 22. Leer papers y documentacion</a>
+          <a href="#cap23">Capitulo 23. Portafolio y criterio tecnico</a>
+          <a href="#cap24">Capitulo 24. Ruta de dominio despues del curso</a>
+        </nav>
+      </div>
+    </aside>
+    <main class="content">
+      <section class="hero">
+        <p class="eyebrow">Cierre</p>
+        <h2>Integrar todo: de conocimientos aislados a capacidad real</h2>
+        <p>Este volumen final está diseñado para que no termines con piezas sueltas. La meta es convertir lo aprendido en una capacidad autónoma: plantear, construir, evaluar, documentar, desplegar y seguir creciendo sin depender de tutoriales cortos.</p>
+      </section>
+
+      <section id="cap21" class="chapter">
+        <p class="eyebrow">Capitulo 21</p>
+        <h2>El capstone completo: problema, datos, modelo, sistema y defensa técnica</h2>
+        <p>Un capstone serio no es un notebook largo ni una demo con métricas. Es la demostración de que puedes sostener correctamente una cadena larga de decisiones. Debe incluir: formulación, target, dataset, validaciones, baseline, feature engineering, modelos, evaluación, error analysis, despliegue, monitoreo y límites del sistema.</p>
+        <h3>21.1 Estructura obligatoria</h3>
+        <ol>
+          <li>Problema de negocio.</li>
+          <li>Unidad de análisis.</li>
+          <li>Target y horizonte temporal.</li>
+          <li>Diseño del dataset y riesgos de leakage.</li>
+          <li>EDA.</li>
+          <li>Baseline.</li>
+          <li>Modelos comparados.</li>
+          <li>Evaluación correcta.</li>
+          <li>Error analysis.</li>
+          <li>Arquitectura de producción.</li>
+          <li>Model card.</li>
+          <li>Plan de mejora.</li>
+        </ol>
+        <h3>21.2 Qué hace fuerte a un capstone</h3>
+        <p>La coherencia. Si tu modelo es sofisticado pero tu target es flojo, el proyecto sigue siendo débil. Si tu score es bueno pero no puedes explicar cómo se usaría, el proyecto sigue siendo débil. El capstone fuerte es el que resiste preguntas duras a lo largo de todo el flujo.</p>
+        <pre><code>capstone/
+  data/
+  notebooks/
+  src/
+  reports/
+  README.md
+  model_card.md
+  architecture.md</code></pre>
+        <div class="exercise">
+          <h4>Ejercicio largo del capítulo</h4>
+          <p>Construye un proyecto extremo a extremo usando uno de los dominios trabajados en la colección. Tu entrega debe poder ser leída y auditada por alguien técnico de principio a fin.</p>
+        </div>
+      </section>
+
+      <section id="cap22" class="chapter">
+        <p class="eyebrow">Capitulo 22</p>
+        <h2>Cómo leer papers y documentación técnica sin perderte</h2>
+        <p>Una vez que ya tienes base suficiente, debes aprender a leer fuentes primarias. Pero leer papers no es leerlos linealmente de principio a fin como una novela. Necesitas un método de extracción de señal.</p>
+        <h3>22.1 Método de lectura por capas</h3>
+        <ol>
+          <li>Abstract e introducción: qué problema intentan resolver.</li>
+          <li>Método: qué proponen realmente.</li>
+          <li>Experimentos: contra qué comparan y con qué métricas.</li>
+          <li>Limitaciones: qué no resuelven.</li>
+        </ol>
+        <h3>22.2 Preguntas obligatorias</h3>
+        <ul>
+          <li>Qué baseline usaron.</li>
+          <li>Si la mejora es material o marginal.</li>
+          <li>Qué costo computacional tuvo.</li>
+          <li>Si esa mejora importaría en producción.</li>
+        </ul>
+        <div class="exercise">
+          <h4>Ejercicio largo del capítulo</h4>
+          <p>Lee un paper del área que más te interese y crea una ficha con: problema, idea, baseline, métrica, mejora, costo, debilidades y si lo aplicarías o no en un proyecto real.</p>
+        </div>
+      </section>
+
+      <section id="cap23" class="chapter">
+        <p class="eyebrow">Capitulo 23</p>
+        <h2>Portafolio, criterio y reputación técnica</h2>
+        <p>Un buen portafolio no demuestra que conoces nombres de algoritmos. Demuestra que sabes tomar decisiones defendibles. Quien revisa un proyecto serio busca claridad en el planteamiento, honestidad en la evaluación y calidad en la documentación.</p>
+        <h3>23.1 Qué debe mostrar un proyecto fuerte</h3>
+        <ul>
+          <li>Problema bien delimitado.</li>
+          <li>EDA con hallazgos reales.</li>
+          <li>Baseline claro.</li>
+          <li>Comparación de modelos.</li>
+          <li>Error analysis.</li>
+          <li>Arquitectura o plan de despliegue.</li>
+          <li>Limitaciones y próximos pasos.</li>
+        </ul>
+        <h3>23.2 Qué vuelve débil un portafolio</h3>
+        <ul>
+          <li>Métricas sin contexto.</li>
+          <li>Gráficos sin conclusiones.</li>
+          <li>Modelos complejos sin baseline.</li>
+          <li>Código no reproducible.</li>
+        </ul>
+        <div class="exercise">
+          <h4>Ejercicio largo del capítulo</h4>
+          <p>Reescribe uno de tus proyectos como si fuera a ser evaluado por un equipo senior. Tu objetivo es eliminar todo lo ornamental y dejar solo lo defendible.</p>
+        </div>
+      </section>
+
+      <section id="cap24" class="chapter">
+        <p class="eyebrow">Capitulo 24</p>
+        <h2>Ruta de dominio después del curso</h2>
+        <p>Terminar esta colección no significa dominar todo. Significa tener una base suficientemente fuerte para aprender con autonomía. A partir de aquí, el crecimiento real vendrá de proyectos largos, revisión de errores y lectura constante de documentación y papers.</p>
+        <h3>24.1 Especializaciones posibles</h3>
+        <ul>
+          <li>Tabular y decisión de negocio.</li>
+          <li>Forecasting y operaciones.</li>
+          <li>NLP y búsqueda semántica.</li>
+          <li>Visión por computador.</li>
+          <li>Recomendadores y ranking.</li>
+          <li>MLOps y plataforma.</li>
+        </ul>
+        <h3>24.2 La forma correcta de seguir</h3>
+        <ol>
+          <li>Cierra proyectos completos.</li>
+          <li>Lee una fuente primaria por semana.</li>
+          <li>Reproduce implementaciones pequeñas.</li>
+          <li>Haz retrospectivas de tus errores.</li>
+          <li>Profundiza en un dominio antes de saltar a otro.</li>
+        </ol>
+        <div class="callout">
+          <p><strong>Lección final de toda la colección:</strong> profundidad no significa acumular más conceptos; significa poder sostener una cadena larga de decisiones correctas desde la formulación del problema hasta el comportamiento del sistema en el mundo real.</p>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

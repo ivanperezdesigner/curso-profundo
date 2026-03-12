@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Libro Profundo Vol. 3 - No Supervisado, Interpretabilidad y Deep Learning</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --paper: #fffaf2;
+      --ink: #17231c;
+      --muted: #596a60;
+      --accent: #0f766e;
+      --border: rgba(23,35,28,0.12);
+      --shadow: 0 20px 55px rgba(23,35,28,0.12);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: "Source Serif 4", serif;
+      background:
+        radial-gradient(circle at top left, rgba(15,118,110,0.12), transparent 24%),
+        linear-gradient(180deg, #f7f4ed 0%, #efe7da 100%);
+    }
+    .layout { display: grid; grid-template-columns: 320px 1fr; min-height: 100vh; }
+    .sidebar {
+      position: sticky; top: 0; height: 100vh; overflow-y: auto;
+      padding: 24px; background: rgba(252,248,240,0.94); border-right: 1px solid var(--border);
+    }
+    .content { padding: 32px; }
+    .card, .hero, .chapter {
+      background: var(--paper);
+      border: 1px solid rgba(255,255,255,0.5);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+    }
+    .card { padding: 18px; margin-bottom: 16px; }
+    .hero { padding: 28px; margin-bottom: 20px; }
+    .chapter { padding: 34px; margin-bottom: 22px; }
+    .eyebrow {
+      font-family: "IBM Plex Sans", sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      font-size: 0.72rem;
+      color: var(--accent);
+      font-weight: 700;
+    }
+    h1, h2, h3, h4 { font-family: "Source Serif 4", serif; margin-top: 0; }
+    p, li { line-height: 1.82; font-size: 1.05rem; }
+    .muted { color: var(--muted); font-family: "IBM Plex Sans", sans-serif; }
+    .toc { display: grid; gap: 10px; }
+    .toc a {
+      display: block; text-decoration: none; color: var(--ink);
+      background: rgba(15,118,110,0.06); border-radius: 16px; padding: 12px 14px;
+      font-family: "IBM Plex Sans", sans-serif;
+    }
+    pre {
+      background: #12211d; color: #eefcf8; border-radius: 18px; padding: 18px;
+      overflow-x: auto; font-family: "IBM Plex Mono", monospace; font-size: 0.92rem; line-height: 1.6;
+    }
+    code { font-family: "IBM Plex Mono", monospace; font-size: 0.92em; }
+    .callout {
+      border-left: 4px solid var(--accent); padding: 10px 0 10px 16px;
+      background: rgba(15,118,110,0.05); border-radius: 0 14px 14px 0; margin: 18px 0;
+    }
+    .exercise {
+      margin-top: 24px; padding: 18px 20px; border-radius: 18px;
+      background: rgba(199,140,47,0.08); border: 1px solid rgba(199,140,47,0.16);
+    }
+    @media (max-width: 1100px) {
+      .layout { grid-template-columns: 1fr; }
+      .sidebar { position: static; height: auto; }
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="card">
+        <p class="eyebrow">Libro largo</p>
+        <h1>Volumen 3</h1>
+        <p class="muted">Clustering serio, representaciones, interpretabilidad, fairness y entrada rigurosa a deep learning aplicado.</p>
+      </div>
+      <div class="card">
+        <h3>Tabla de contenido</h3>
+        <nav class="toc">
+          <a href="#cap9">Capitulo 9. Aprendizaje no supervisado serio</a>
+          <a href="#cap10">Capitulo 10. Representaciones y reducción de dimensionalidad</a>
+          <a href="#cap11">Capitulo 11. Interpretabilidad y fairness en profundidad</a>
+          <a href="#cap12">Capitulo 12. Deep learning con criterio y sin humo</a>
+        </nav>
+      </div>
+    </aside>
+
+    <main class="content">
+      <section class="hero">
+        <p class="eyebrow">Continuacion</p>
+        <h2>Aprender cuando no tienes etiquetas, como interpretar sistemas complejos y cuando deep learning realmente merece el costo</h2>
+        <p>Este volumen entra en tres zonas donde mucha gente se vuelve superficial muy rápido: clustering sin criterio, interpretabilidad reducida a un gráfico y deep learning tratado como moda. Aquí el objetivo es el contrario: precisión conceptual, conexión con decisiones reales y tutoriales que obliguen a pensar.</p>
+      </section>
+
+      <section id="cap9" class="chapter">
+        <p class="eyebrow">Capitulo 9</p>
+        <h2>Aprendizaje no supervisado serio: clustering como hipótesis y no como verdad revelada</h2>
+        <p>El aprendizaje no supervisado suele producir un entusiasmo desproporcionado. La razón es psicológica: cuando un algoritmo agrupa datos sin que nadie le haya dado etiquetas, parece que está “descubriendo la estructura oculta del mundo”. Esa intuición es peligrosa. Lo que realmente hace el algoritmo es optimizar cierto criterio geométrico o estadístico dentro de una representación concreta. No descubre esencia; propone una estructura bajo ciertos supuestos.</p>
+
+        <h3>9.1 Qué problema resuelve realmente el clustering</h3>
+        <p>Cuando clusterizas, normalmente intentas comprimir una nube compleja de observaciones en un conjunto pequeño de perfiles. Eso puede ser útil para:</p>
+        <ul>
+          <li>Exploración inicial.</li>
+          <li>Segmentación operativa.</li>
+          <li>Diseño de campañas diferenciadas.</li>
+          <li>Generación de hipótesis.</li>
+          <li>Resumen visual o descriptivo.</li>
+        </ul>
+        <p>Lo que no debes hacer es tratar los clusters como si fueran clases reales del negocio descubiertas automáticamente. El algoritmo no entiende causalidad, valor, costo ni semántica organizacional. Solo entiende la geometría del espacio de features que tú le diste.</p>
+
+        <h3>9.2 Por qué la representación manda sobre el resultado</h3>
+        <p>En aprendizaje supervisado, el target ofrece una referencia externa. En clustering, no. Eso significa que la elección de variables, escalado, transformaciones y métricas de distancia influye muchísimo más en el resultado final. Si clusterizas clientes con gasto total sin transformar una cola extremadamente sesgada, probablemente el cluster “premium” domine la estructura. Si escalas mal, una sola variable puede imponer toda la segmentación.</p>
+        <p>Por eso clustering es tanto una decisión de representación como una decisión algorítmica.</p>
+
+        <h3>9.3 K-means entendido de forma útil</h3>
+        <p>K-means busca centroides que minimizan la suma de distancias cuadráticas dentro de cada grupo. Lo importante no es memorizar la función objetivo, sino entender sus implicaciones:</p>
+        <ul>
+          <li>Favorece clusters relativamente compactos y aproximadamente esféricos.</li>
+          <li>Es sensible a outliers.</li>
+          <li>Depende de escala.</li>
+          <li>Te obliga a elegir <code>k</code>.</li>
+        </ul>
+        <p>Eso ya te dice cuándo confiar más o menos en él.</p>
+
+        <h3>9.4 Segmentación accionable vs segmentación ornamental</h3>
+        <p>La única segmentación que realmente vale algo es la que habilita acciones distintas. Si terminas con cuatro clusters bellamente coloreados pero no puedes decir qué harías distinto con cada uno, entonces no construiste una segmentación útil; construiste una visualización sofisticada.</p>
+        <div class="callout">
+          <p><strong>Regla práctica:</strong> si no puedes escribir una acción concreta por cluster, todavía no has terminado el trabajo.</p>
+        </div>
+
+        <h3>9.5 Tutorial completo: segmentación RFM paso a paso</h3>
+        <p>Vamos a construir una segmentación de clientes con variables RFM: recency, frequency, monetary.</p>
+        <h4>Paso 1. Construcción de variables</h4>
+        <pre><code>fecha_ref = compras["fecha"].max()
+
+rfm = compras.groupby("cliente_id").agg(
+    recency=("fecha", lambda s: (fecha_ref - s.max()).days),
+    frequency=("orden_id", "nunique"),
+    monetary=("monto", "sum")
+).reset_index()</code></pre>
+        <p>Estas tres variables son simples, pero muy poderosas. Resumen recencia, intensidad y valor económico.</p>
+
+        <h4>Paso 2. Inspección de distribución</h4>
+        <p>No saltes directamente a clusterizar. Mira antes la forma de las variables. Monetary suele ser muy sesgada. Frequency puede tener cola larga. Recency puede tener muchos valores concentrados.</p>
+        <pre><code>print(rfm[["recency", "frequency", "monetary"]].describe())</code></pre>
+        <p>Si monetary es extremadamente sesgada, podría convenir una transformación logarítmica:</p>
+        <pre><code>import numpy as np
+rfm["monetary_log"] = np.log1p(rfm["monetary"])</code></pre>
+
+        <h4>Paso 3. Escalado</h4>
+        <pre><code>from sklearn.preprocessing import StandardScaler
+
+X = rfm[["recency", "frequency", "monetary_log"]].copy()
+scaler = StandardScaler()
+X_scaled = scaler.fit_transform(X)</code></pre>
+        <p>El escalado es indispensable aquí porque las unidades son distintas y k-means es sensible a la escala.</p>
+
+        <h4>Paso 4. Elegir varios valores de k</h4>
+        <pre><code>from sklearn.cluster import KMeans
+from sklearn.metrics import silhouette_score
+
+rows = []
+for k in range(2, 8):
+    model = KMeans(n_clusters=k, random_state=42, n_init=10)
+    labels = model.fit_predict(X_scaled)
+    rows.append({
+        "k": k,
+        "inercia": model.inertia_,
+        "silhouette": silhouette_score(X_scaled, labels)
+    })
+
+print(pd.DataFrame(rows))</code></pre>
+        <p>No tomes el silhouette score como verdad absoluta. Te orienta, pero la decisión final también depende de interpretabilidad y utilidad operativa.</p>
+
+        <h4>Paso 5. Ajustar modelo final y perfilar clusters</h4>
+        <pre><code>kmeans = KMeans(n_clusters=4, random_state=42, n_init=10)
+rfm["cluster"] = kmeans.fit_predict(X_scaled)
+
+perfil = rfm.groupby("cluster").agg(
+    clientes=("cliente_id", "count"),
+    recency_med=("recency", "median"),
+    frequency_med=("frequency", "median"),
+    monetary_med=("monetary", "median")
+)
+print(perfil)</code></pre>
+        <p>Aquí empieza lo realmente importante: interpretación. Supón que encuentras algo como esto:</p>
+        <ul>
+          <li>Cluster A: alta recency, baja frequency, bajo monetary.</li>
+          <li>Cluster B: baja recency, alta frequency, alto monetary.</li>
+          <li>Cluster C: baja recency, media frequency, alto monetary.</li>
+          <li>Cluster D: recency media, baja frequency, ticket alto pero poca repetición.</li>
+        </ul>
+        <p>Traducción posible:</p>
+        <ul>
+          <li>A: dormidos o en riesgo.</li>
+          <li>B: fieles premium.</li>
+          <li>C: buenos clientes recientes pero quizá menos intensos.</li>
+          <li>D: compradores esporádicos de alto valor.</li>
+        </ul>
+        <p>Ahora sí puedes pensar acciones distintas: retención, upsell, beneficios VIP o reactivación.</p>
+
+        <h3>9.6 DBSCAN y clustering jerárquico</h3>
+        <p>No todo clustering debe empezar o terminar en k-means. DBSCAN puede ser útil cuando esperas densidades locales y ruido. El clustering jerárquico puede ayudar a explorar estructura multinivel. Pero la pregunta sigue siendo la misma: ¿la estructura encontrada se traduce en hipótesis o acciones útiles?</p>
+
+        <div class="exercise">
+          <h4>Ejercicio largo del capítulo</h4>
+          <p>Haz una segmentación completa sobre clientes o productos. Debes justificar variables, escalado, valor de <code>k</code> o algoritmo elegido, interpretación de grupos y acciones concretas por cluster. Al final añade una sección obligatoria llamada “por qué esta segmentación podría estar equivocada”. Si no puedes escribir esa sección, todavía no has desarrollado criterio suficiente.</p>
+        </div>
+      </section>
+
+      <section id="cap10" class="chapter">
+        <p class="eyebrow">Capitulo 10</p>
+        <h2>Representaciones y reducción de dimensionalidad: cómo comprimir sin mentirte</h2>
+        <p>Cuando la dimensión crece, el espacio se vuelve más extraño y más difícil de visualizar. Reducción de dimensionalidad aparece entonces como una herramienta para compresión, visualización y representación. Pero también aquí hay una fuente frecuente de superficialidad: muchos estudiantes confunden “se ve bonito en 2D” con “ya entendí la estructura del problema”. No es lo mismo.</p>
+
+        <h3>10.1 PCA: qué hace y qué no hace</h3>
+        <p>PCA busca direcciones lineales del espacio que capturen máxima varianza. Eso significa que comprime información de forma eficiente si la estructura relevante es aproximadamente lineal y si la varianza alta coincide con información útil. Pero no garantiza preservar la información más relevante para el objetivo de negocio ni para una tarea supervisada posterior.</p>
+
+        <h3>10.2 Interpretación correcta de componentes</h3>
+        <p>Una componente principal es una combinación lineal de variables originales. A veces tiene interpretación clara. A veces no. Si fuerzas narrativa donde no la hay, terminarás contando una historia falsa. PCA es valioso, pero exige humildad interpretativa.</p>
+
+        <h3>10.3 Tutorial: PCA en datos de clientes o sensores</h3>
+        <pre><code>from sklearn.decomposition import PCA
+from sklearn.preprocessing import StandardScaler
+
+features = df[["x1", "x2", "x3", "x4", "x5"]]
+X_scaled = StandardScaler().fit_transform(features)
+
+pca = PCA(n_components=2)
+X_pca = pca.fit_transform(X_scaled)
+
+print("varianza explicada:", pca.explained_variance_ratio_)</code></pre>
+        <p>La primera lectura útil es: cuánta varianza capturan las primeras componentes. La segunda es mirar las cargas:</p>
+        <pre><code>loadings = pd.DataFrame(
+    pca.components_.T,
+    index=features.columns,
+    columns=["PC1", "PC2"]
+)
+print(loadings)</code></pre>
+        <p>Ahora sí puedes preguntar qué variables empujan cada componente. Pero recuerda: esto no prueba causalidad ni garantiza interpretabilidad semántica completa.</p>
+
+        <h3>10.4 Embeddings y representaciones aprendidas</h3>
+        <p>En problemas modernos, especialmente texto, imagen o recomendación, muchas veces ya no trabajas solo con variables manuales. Trabajas con representaciones aprendidas: embeddings. La idea profunda detrás de un embedding es traducir objetos complejos a vectores donde la geometría del espacio capture parte de la semántica o de la similitud funcional.</p>
+        <p>Esto abre la puerta a sistemas poderosos, pero también a nuevos riesgos: creer que porque tienes un embedding ya entendiste el fenómeno. No. Tienes una representación útil para ciertas tareas, no necesariamente una explicación del dominio.</p>
+
+        <h3>10.5 Autoencoders y compresión no lineal</h3>
+        <p>Cuando PCA es demasiado limitado, entran compresores no lineales como autoencoders. La intuición es simple: entrenas una red para pasar por un cuello de botella y reconstruir la entrada. Ese cuello de botella fuerza una representación comprimida. Es una idea poderosa, pero mucho más costosa y frágil que PCA. No debe usarse por prestigio sino por necesidad.</p>
+
+        <div class="exercise">
+          <h4>Ejercicio largo del capítulo</h4>
+          <p>Toma un dataset con al menos 10 variables numéricas. Aplica PCA, analiza varianza explicada, interpreta cargas y escribe una sección llamada “qué información puede haberse perdido y por qué eso importa para mi caso”. Luego compara con una técnica no lineal si te sientes cómodo. La comparación debe ser argumentada, no solo visual.</p>
+        </div>
+      </section>
+
+      <section id="cap11" class="chapter">
+        <p class="eyebrow">Capitulo 11</p>
+        <h2>Interpretabilidad y fairness en profundidad: revisar el modelo como sistema socio-técnico</h2>
+        <p>Interpretar un modelo no consiste en producir un gráfico y dar por cerrada la discusión. Interpretar significa entender qué señales usa el sistema, por qué las usa, qué limitaciones tiene esa lógica y qué riesgos emergen cuando un modelo se inserta en decisiones humanas, reglas organizacionales y poblaciones heterogéneas. En otras palabras: interpretar es evaluar el comportamiento del modelo dentro del mundo, no solo dentro del notebook.</p>
+
+        <h3>11.1 Interpretabilidad global vs local</h3>
+        <p>La interpretación global intenta describir qué patrones generales usa el modelo. La interpretación local intenta explicar por qué un caso concreto recibió un score particular. Ambas son importantes y ninguna reemplaza a la otra.</p>
+        <ul>
+          <li><strong>Global:</strong> qué features pesan más, qué interacciones dominan, qué zonas del espacio son más sensibles.</li>
+          <li><strong>Local:</strong> por qué este cliente, esta transacción o este paciente recibió esta salida.</li>
+        </ul>
+        <p>En sistemas operativos, la interpretación local importa mucho cuando necesitas auditar decisiones individuales. La global importa para revisar si el modelo está aprendiendo algo razonable en conjunto.</p>
+
+        <h3>11.2 La trampa de confundir importancia con causalidad</h3>
+        <p>Si una feature aparece como importante, eso no demuestra que sea una causa del resultado. Solo indica que el modelo la encuentra útil para predecir en ese contexto. Una variable puede ser importante porque resume un proceso histórico sesgado, porque actúa como proxy de otra más sensible o porque captura una correlación temporal espuria. La interpretación correcta debe mantener esa cautela.</p>
+
+        <h3>11.3 Fairness: por qué el agregado es insuficiente</h3>
+        <p>Una métrica global puede verse bien y aun así ocultar daños serios en un grupo concreto. Esto ocurre porque el rendimiento promedio puede esconder distribuciones de error muy desiguales. Si un score de riesgo genera muchos más falsos positivos en cierto grupo, las consecuencias humanas y operativas pueden ser muy distintas aunque la métrica total parezca aceptable.</p>
+        <p>Por eso la revisión por segmentos no es opcional en sistemas sensibles.</p>
+
+        <h3>11.4 Tutorial: revisión de errores por grupo</h3>
+        <pre><code>eval_df = X_valid.copy()
+eval_df["y_true"] = y_valid.values
+eval_df["score"] = valid_proba
+eval_df["pred"] = (eval_df["score"] >= 0.4).astype(int)
+
+report = eval_df.groupby("segmento").agg(
+    positivos_reales=("y_true", "mean"),
+    positivos_predichos=("pred", "mean"),
+    score_promedio=("score", "mean")
+)
+print(report)</code></pre>
+        <p>Esto es apenas el inicio. Lo importante es que luego calcules errores específicos por grupo: precisión, recall, falsos positivos, falsos negativos y calibración si aplica.</p>
+
+        <h3>11.5 SHAP y herramientas similares</h3>
+        <p>Herramientas como SHAP pueden ser útiles para estudiar contribuciones locales y globales. Pero hay dos errores recurrentes:</p>
+        <ul>
+          <li>Tomar sus gráficos como verdad final.</li>
+          <li>Olvidar que explican el comportamiento del modelo, no la estructura causal del mundo.</li>
+        </ul>
+        <p>Usa estas herramientas como instrumentos de inspección, no como sustitutos del razonamiento crítico.</p>
+
+        <h3>11.6 Model cards y documentación disciplinada</h3>
+        <p>Un sistema serio debería venir con una ficha clara que responda:</p>
+        <ul>
+          <li>Qué problema resuelve.</li>
+          <li>Qué datos usa.</li>
+          <li>Qué población cubre y cuál no.</li>
+          <li>Qué métricas obtuvo globalmente y por grupo.</li>
+          <li>Qué riesgos y limitaciones tiene.</li>
+          <li>Qué usos están permitidos y cuáles no.</li>
+        </ul>
+        <p>Si esta documentación falta, el riesgo de uso incorrecto aumenta mucho incluso si el modelo es técnicamente fuerte.</p>
+
+        <div class="exercise">
+          <h4>Ejercicio largo del capítulo</h4>
+          <p>Elige uno de tus modelos y construye una model card completa. Debe incluir revisión por segmentos, riesgos, supuestos y una sección explícita titulada “dónde no debería usarse este modelo”. Además, toma 10 casos individuales y escribe una explicación local razonada de su score. Si no puedes hacer esto, todavía no estás interpretando el sistema con suficiente profundidad.</p>
+        </div>
+      </section>
+
+      <section id="cap12" class="chapter">
+        <p class="eyebrow">Capitulo 12</p>
+        <h2>Deep learning con criterio: cuándo vale la pena, cómo empezar y qué errores evitar</h2>
+        <p>Deep learning es potente, pero su prestigio hace que muchos lo usen como símbolo de sofisticación más que como herramienta adecuada. El criterio correcto no es “usar redes porque son modernas”, sino entender cuándo la representación manual empieza a quedarse corta y cuándo el problema realmente justifica el costo de datos, cómputo y complejidad.</p>
+
+        <h3>12.1 Dónde suele brillar deep learning</h3>
+        <ul>
+          <li>Visión por computador.</li>
+          <li>Audio.</li>
+          <li>NLP y texto complejo.</li>
+          <li>Secuencias ricas y datos no estructurados.</li>
+          <li>Aprendizaje de representaciones cuando el feature engineering manual se vuelve insuficiente.</li>
+        </ul>
+        <p>En cambio, en muchos problemas tabulares medianos, gradient boosting sigue siendo una referencia formidable.</p>
+
+        <h3>12.2 Transfer learning: el verdadero punto de entrada moderno</h3>
+        <p>La forma sensata de entrar hoy a deep learning rara vez es entrenar desde cero. Normalmente empiezas con modelos preentrenados y los adaptas. Esa es una de las grandes ventajas del ecosistema moderno: puedes apoyarte en representaciones ya aprendidas y concentrarte en la tarea específica.</p>
+
+        <h3>12.3 Tutorial conceptual: clasificación de texto con embeddings + clasificador simple</h3>
+        <p>Una forma muy buena de entrar en este mundo sin saltar de golpe a arquitecturas complejas es usar embeddings de texto y un clasificador supervisado encima. Así aprendes representación y decisión por separado.</p>
+        <pre><code># Esquema conceptual
+texts = [
+    "no puedo iniciar sesion en la app",
+    "quiero cambiar la direccion de envio",
+    "me cobraron dos veces la orden"
+]
+
+# 1. Obtener embeddings con un modelo preentrenado
+# 2. Convertir cada texto en un vector
+# 3. Entrenar un clasificador simple sobre esos vectores</code></pre>
+        <p>La lección aquí es fuerte: muchas veces el salto de calidad no viene de una arquitectura end-to-end gigante, sino de una representación mucho mejor de la entrada.</p>
+
+        <h3>12.4 Cómo pensar una red neuronal desde cero</h3>
+        <p>Una red neuronal puede entenderse como una función compuesta por múltiples transformaciones lineales y no lineales. La intuición central es que capas sucesivas permiten construir representaciones más abstractas. Pero no debes romantizar esa capacidad. También implica más parámetros, más riesgo de sobreajuste, más sensibilidad a datos y más complejidad de entrenamiento.</p>
+
+        <h3>12.5 Costos ocultos</h3>
+        <p>Antes de lanzarte a una solución profunda, debes pensar en:</p>
+        <ul>
+          <li>Costo de etiquetado.</li>
+          <li>Costo de entrenamiento.</li>
+          <li>Latencia objetivo.</li>
+          <li>Capacidad de monitoreo.</li>
+          <li>Interpretabilidad requerida.</li>
+          <li>Disponibilidad de modelos preentrenados útiles.</li>
+        </ul>
+        <p>En muchos casos, la respuesta correcta sigue siendo: “todavía no necesito deep learning”. Saber decir eso también es madurez técnica.</p>
+
+        <h3>12.6 Tutorial mínimo con PyTorch: red para clasificación tabular como ejercicio conceptual</h3>
+        <p>No porque sea la mejor opción en tabular, sino porque te ayuda a entender la mecánica de entrenamiento.</p>
+        <pre><code>import torch
+import torch.nn as nn
+
+class MLP(nn.Module):
+    def __init__(self, input_dim):
+        super().__init__()
+        self.net = nn.Sequential(
+            nn.Linear(input_dim, 64),
+            nn.ReLU(),
+            nn.Linear(64, 32),
+            nn.ReLU(),
+            nn.Linear(32, 1)
+        )
+
+    def forward(self, x):
+        return self.net(x)</code></pre>
+        <p>Lo importante aquí no es que esta sea la arquitectura ideal. Lo importante es entender qué hace una capa lineal, por qué aparece una activación no lineal y cómo el entrenamiento ajusta parámetros para reducir una pérdida.</p>
+
+        <h3>12.7 Comparación honesta con modelos clásicos</h3>
+        <p>Si pruebas una red, compárala honestamente con un baseline fuerte clásico. No des por hecho que ganarás. En datos tabulares, muchas veces no ganarás. Y si ganas por poco pero multiplicando complejidad, deberías preguntarte si el costo total vale la pena.</p>
+
+        <div class="callout">
+          <p><strong>Regla práctica:</strong> deep learning no se justifica por prestigio técnico sino por estructura del dato y beneficio neto frente a alternativas más simples.</p>
+        </div>
+
+        <div class="exercise">
+          <h4>Ejercicio largo del capítulo</h4>
+          <p>Elige un problema de texto o imagen si puedes, o un dataset tabular si quieres comparar. Debes construir: baseline clásico, enfoque con representación preentrenada o red simple, comparación honesta de métricas, costo, interpretabilidad y mantenimiento. El entregable no es “la red dio mejor score”; el entregable es una decisión argumentada sobre si el salto de complejidad se justifica.</p>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

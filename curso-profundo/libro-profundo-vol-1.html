@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Libro Profundo Vol. 1 - Data Science y Machine Learning</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f6f2e8;
+      --paper: #fffaf1;
+      --ink: #18241d;
+      --muted: #57685f;
+      --accent: #0f766e;
+      --border: rgba(24, 36, 29, 0.12);
+      --shadow: 0 20px 55px rgba(24, 36, 29, 0.12);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: "Source Serif 4", serif;
+      background:
+        radial-gradient(circle at top left, rgba(15, 118, 110, 0.14), transparent 25%),
+        linear-gradient(180deg, #f7f4ed 0%, #efe8dc 100%);
+    }
+    .layout {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      min-height: 100vh;
+    }
+    .sidebar {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      padding: 24px;
+      background: rgba(252, 248, 240, 0.94);
+      border-right: 1px solid var(--border);
+    }
+    .content {
+      padding: 32px;
+    }
+    .card, .chapter, .hero {
+      background: var(--paper);
+      border: 1px solid rgba(255,255,255,0.5);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+    }
+    .card { padding: 18px; margin-bottom: 16px; }
+    .hero { padding: 28px; margin-bottom: 20px; }
+    .chapter { padding: 34px; margin-bottom: 22px; }
+    .eyebrow {
+      font-family: "IBM Plex Sans", sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      font-size: 0.72rem;
+      color: var(--accent);
+      font-weight: 700;
+    }
+    h1, h2, h3, h4 {
+      font-family: "Source Serif 4", serif;
+      margin-top: 0;
+      color: #122019;
+    }
+    h1 { font-size: 2.3rem; }
+    h2 { font-size: 2rem; margin-bottom: 1rem; }
+    h3 { font-size: 1.45rem; margin-top: 1.7rem; }
+    h4 { font-size: 1.15rem; margin-top: 1.2rem; }
+    p, li {
+      line-height: 1.8;
+      font-size: 1.05rem;
+    }
+    .muted { color: var(--muted); font-family: "IBM Plex Sans", sans-serif; }
+    .toc {
+      display: grid;
+      gap: 10px;
+    }
+    .toc a {
+      display: block;
+      padding: 12px 14px;
+      border-radius: 16px;
+      text-decoration: none;
+      color: var(--ink);
+      background: rgba(15, 118, 110, 0.06);
+      font-family: "IBM Plex Sans", sans-serif;
+    }
+    .toc a:hover { background: rgba(15, 118, 110, 0.12); }
+    pre {
+      background: #14231f;
+      color: #eefcf8;
+      border-radius: 18px;
+      padding: 18px;
+      overflow-x: auto;
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.92rem;
+      line-height: 1.6;
+    }
+    code {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.92em;
+    }
+    .callout {
+      border-left: 4px solid var(--accent);
+      padding: 10px 0 10px 16px;
+      margin: 18px 0;
+      background: rgba(15, 118, 110, 0.05);
+      border-radius: 0 14px 14px 0;
+    }
+    .exercise {
+      margin-top: 24px;
+      padding: 18px 20px;
+      border-radius: 18px;
+      background: rgba(199, 140, 47, 0.08);
+      border: 1px solid rgba(199, 140, 47, 0.15);
+    }
+    .chapter-meta {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+      font-family: "IBM Plex Sans", sans-serif;
+    }
+    .chapter-meta span {
+      background: rgba(15, 118, 110, 0.08);
+      padding: 7px 10px;
+      border-radius: 999px;
+    }
+    @media (max-width: 1100px) {
+      .layout { grid-template-columns: 1fr; }
+      .sidebar { position: static; height: auto; }
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="card">
+        <p class="eyebrow">Libro largo</p>
+        <h1>Volumen 1</h1>
+        <p class="muted">Fundamentos profundos, pensamiento correcto, estadistica, datos, feature engineering y modelado supervisado.</p>
+      </div>
+      <div class="card">
+        <h3>Como usar este volumen</h3>
+        <ul>
+          <li>Lee lento y toma notas.</li>
+          <li>Reproduce el codigo entero a mano.</li>
+          <li>No avances si no puedes explicar el capitulo anterior.</li>
+          <li>Haz todos los ejercicios largos.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Tabla de contenido</h3>
+        <nav class="toc">
+          <a href="#cap1">Capitulo 1. Pensar correctamente sobre Data Science y ML</a>
+          <a href="#cap2">Capitulo 2. Estadistica que realmente necesitas</a>
+          <a href="#cap3">Capitulo 3. Datasets, leakage y feature engineering</a>
+          <a href="#cap4">Capitulo 4. Modelado supervisado paso a paso</a>
+        </nav>
+      </div>
+    </aside>
+
+    <main class="content">
+      <section class="hero">
+        <p class="eyebrow">Material de lectura profunda</p>
+        <h2>De problema ambiguo a sistema de prediccion defendible</h2>
+        <p>Este volumen no es una guía rápida. Está escrito para ser estudiado, no escaneado. La idea es que aquí te tomes semanas, no minutos. Cada capítulo mezcla teoría, criterio práctico, errores frecuentes y tutoriales con código de principio a fin.</p>
+        <div class="chapter-meta">
+          <span>Lectura densa</span>
+          <span>Enfoque práctico</span>
+          <span>Problemas reales</span>
+          <span>Base para 3 meses de estudio</span>
+        </div>
+      </section>
+
+      <section id="cap1" class="chapter">
+        <p class="eyebrow">Capitulo 1</p>
+        <h2>Pensar correctamente sobre Data Science y Machine Learning</h2>
+        <p>La mayoría de personas entra a machine learning por el lugar incorrecto. Empiezan por algoritmos, librerías, modelos y benchmarks. Eso produce una ilusión de progreso técnico, pero muy poca capacidad real para resolver problemas. El núcleo de este campo no es entrenar modelos; es traducir un problema confuso del mundo real a una formulación cuantitativa que permita una mejor decisión.</p>
+        <p>Ese cambio de enfoque parece pequeño, pero no lo es. En cuanto lo tomas en serio, deja de interesarte solamente qué algoritmo usar y empiezan a importarte otras preguntas mucho más decisivas: qué representa una fila, cómo defines el target, qué información existe al momento de predecir, qué acción vas a tomar con el score y qué costo tiene cada error. Esas preguntas suelen tener más impacto sobre el valor del sistema que la diferencia entre dos algoritmos sofisticados.</p>
+
+        <h3>1.1 El error fundamental del principiante</h3>
+        <p>El error típico es pensar así: “Tengo datos, así que voy a entrenar un modelo”. Esa frase ya viene mal orientada. Tener datos no implica tener un problema de machine learning. A veces tienes un problema de reporting. A veces una regla de negocio es suficiente. A veces necesitas un dashboard, una validación, una política o un experimento. El hecho de que exista una tabla no convierte un problema en un problema de ML.</p>
+        <p>Observa esta diferencia:</p>
+        <ul>
+          <li><strong>Necesidad vaga:</strong> “Estamos perdiendo clientes”.</li>
+          <li><strong>Pregunta operativa:</strong> “Qué clientes activos tienen alta probabilidad de dejar de comprar en los próximos 30 días para priorizar campañas de retención”.</li>
+        </ul>
+        <p>Solo la segunda formulación tiene una forma usable para ciencia de datos. La primera es apenas un síntoma de negocio.</p>
+
+        <h3>1.2 La secuencia mental correcta</h3>
+        <p>Antes de tocar código, acostúmbrate a seguir esta secuencia:</p>
+        <ol>
+          <li>Define la decisión que quieres mejorar.</li>
+          <li>Define la unidad de análisis.</li>
+          <li>Define el target.</li>
+          <li>Define cuándo existe cada dato.</li>
+          <li>Define baseline.</li>
+          <li>Define cómo evaluarás.</li>
+          <li>Recién entonces piensa en modelos.</li>
+        </ol>
+        <p>Si inviertes este orden, tu proyecto puede verse técnico pero ser conceptualmente malo.</p>
+
+        <h3>1.3 Unidad de análisis: la decisión más infravalorada</h3>
+        <p>La unidad de análisis responde la pregunta: ¿qué representa exactamente una fila del dataset? No es una formalidad. Es una decisión estructural.</p>
+        <p>Ejemplos:</p>
+        <ul>
+          <li>En churn: una fila puede ser un cliente en una fecha de corte.</li>
+          <li>En fraude: una fila puede ser una transacción.</li>
+          <li>En demanda: una fila puede ser producto-tienda-día.</li>
+          <li>En mantenimiento predictivo: una fila puede ser máquina-ventana temporal.</li>
+        </ul>
+        <p>Si no defines esto con precisión, todo lo demás queda mal: joins, features, target y evaluación.</p>
+
+        <h3>1.4 Qué es realmente un target</h3>
+        <p>Muchos cursos explican targets como si fueran columnas ya existentes. En la práctica, el target suele construirse. Eso importa mucho porque construirlo mal es una fuente masiva de ruido y leakage.</p>
+        <p>Ejemplo de churn:</p>
+        <ul>
+          <li><strong>Mala definición:</strong> “churn = cliente inactivo”. ¿Qué significa inactivo? ¿7 días? ¿30? ¿90? ¿igual para todos los negocios?</li>
+          <li><strong>Buena definición:</strong> “churn_30d = 1 si, dado un cliente activo en la fecha de corte, no realiza una compra en los 30 días posteriores”.</li>
+        </ul>
+        <p>Fíjate que esta definición ya incluye tiempo, elegibilidad y comportamiento esperado.</p>
+
+        <h3>1.5 Cuándo NO usar machine learning</h3>
+        <p>Esto es igual de importante que saber cuándo sí usarlo. No uses ML cuando:</p>
+        <ul>
+          <li>Una regla fija resuelve el problema mejor y más barato.</li>
+          <li>No existe una acción asociada a la predicción.</li>
+          <li>No tienes etiquetas confiables.</li>
+          <li>La definición del objetivo cambia constantemente.</li>
+          <li>Necesitas una trazabilidad exacta y una regla simple ya es suficiente.</li>
+        </ul>
+        <div class="callout">
+          <p><strong>Regla práctica:</strong> si no puedes describir qué decisión cambia cuando conoces la predicción, probablemente todavía no tienes un caso de uso listo para ML.</p>
+        </div>
+
+        <h3>1.6 Tipos de problemas, bien entendidos</h3>
+        <p><strong>Clasificación</strong> no es solo “predecir 0 o 1”. Es construir un sistema que ordena o separa casos según riesgo, propensión o categoría. En negocio casi nunca importa la clase aislada; importa la política que aplicas sobre el score.</p>
+        <p><strong>Regresión</strong> no es solo “predecir un número”. Es cuantificar una magnitud útil: precio, demanda, consumo, tiempo, costo esperado.</p>
+        <p><strong>Forecasting</strong> no es simplemente regresión con fechas. Tiene una estructura temporal que obliga a respetar causalidad y validación distinta.</p>
+        <p><strong>Clustering</strong> no descubre “la verdad oculta del negocio”. Propone agrupaciones según una representación y una métrica de distancia.</p>
+
+        <h3>1.7 Tutorial completo: formular un problema de churn de forma profesional</h3>
+        <p>Vamos a escribir el problema correctamente, como lo haría alguien que quiere construir un sistema útil y no solo un notebook.</p>
+        <h4>Paso 1. Problema natural</h4>
+        <p>“Estamos perdiendo clientes valiosos”.</p>
+        <h4>Paso 2. Decisión de negocio</h4>
+        <p>Queremos priorizar una campaña semanal de retención para un subconjunto de clientes activos.</p>
+        <h4>Paso 3. Unidad de análisis</h4>
+        <p>Cada fila representará un cliente activo en una fecha de corte semanal.</p>
+        <h4>Paso 4. Target</h4>
+        <p><code>churn_30d = 1</code> si el cliente no compra en los 30 días siguientes a la fecha de corte.</p>
+        <h4>Paso 5. Población elegible</h4>
+        <p>Solo clientes que hayan comprado al menos una vez en los últimos 180 días. Si incluyes clientes muertos desde hace años, la tarea cambia completamente.</p>
+        <h4>Paso 6. Acción</h4>
+        <p>Enviar campaña solo al top 10 por ciento con mayor score.</p>
+        <h4>Paso 7. Baseline</h4>
+        <p>Regla simple: si <code>dias_desde_ultima_compra &gt; 45</code>, marcar como alto riesgo.</p>
+        <h4>Paso 8. Métricas</h4>
+        <ul>
+          <li>Precision@10%</li>
+          <li>Recall@10%</li>
+          <li>Lift frente a estrategia aleatoria</li>
+          <li>ROI estimado de campaña</li>
+        </ul>
+        <h4>Paso 9. Riesgos</h4>
+        <ul>
+          <li>Leakage por variables generadas después del churn.</li>
+          <li>Sesgo por excluir clientes offline.</li>
+          <li>Métrica incorrecta si se usa accuracy.</li>
+        </ul>
+        <pre><code>problem_definition = {
+    "business_problem": "reducir churn",
+    "decision": "priorizar campaña de retención",
+    "unit_of_analysis": "cliente_fecha_corte",
+    "eligibility": "clientes con actividad en los ultimos 180 dias",
+    "target": "1 si no compra en los proximos 30 dias",
+    "baseline": "dias_desde_ultima_compra > 45",
+    "action_policy": "actuar sobre top 10 por ciento",
+    "metrics": ["precision_at_10pct", "recall_at_10pct", "lift", "roi"]
+}</code></pre>
+        <p>Observa lo que ocurrió: todavía no hemos tocado un algoritmo, y sin embargo ya hicimos la mayor parte del trabajo conceptual serio.</p>
+
+        <div class="exercise">
+          <h4>Ejercicio largo del capítulo</h4>
+          <p>Haz este mismo ejercicio para tres dominios distintos: fraude, pricing y forecasting de demanda. Para cada uno, define unidad, target, acción, baseline, costo del error y riesgos de leakage. No avances al siguiente capítulo hasta que puedas defender esas definiciones sin mirar tus notas.</p>
+        </div>
+      </section>
+
+      <section id="cap2" class="chapter">
+        <p class="eyebrow">Capitulo 2</p>
+        <h2>Estadística que realmente necesitas para hacer buen Machine Learning</h2>
+        <p>Muchos estudiantes viven dos errores opuestos. Unos huyen de la estadística porque les parece abstracta. Otros la memorizan como una lista de fórmulas desconectadas de la práctica. Ambas rutas producen debilidad. La forma correcta de aprender estadística para ML no es recitar definiciones, sino desarrollar intuición cuantitativa sobre ruido, incertidumbre, variabilidad y muestreo.</p>
+
+        <h3>2.1 La distinción población vs muestra</h3>
+        <p>El dataset que tienes delante no es “la realidad”. Es una muestra de la realidad o, a veces, una vista sesgada de una parte de esa realidad. Esta diferencia parece obvia cuando se enuncia, pero se olvida constantemente en la práctica. En machine learning casi todas las conclusiones que sacas dependen de una muestra: tus ejemplos de entrenamiento, tu conjunto de validación, tus métricas observadas e incluso tus errores manualmente revisados.</p>
+        <p>Por eso siempre debes preguntar:</p>
+        <ul>
+          <li>De qué población provienen estos datos.</li>
+          <li>Qué mecanismo de captura produjo esta muestra.</li>
+          <li>Qué parte de la población quedó fuera.</li>
+          <li>Si el mecanismo cambió en el tiempo.</li>
+        </ul>
+        <p>Si ignoras eso, puedes entrenar un modelo impecable sobre una población equivocada.</p>
+
+        <h3>2.2 Media, mediana y por qué el promedio te puede mentir</h3>
+        <p>La media es útil, pero extremadamente sensible a outliers. La mediana es más robusta, pero también puede esconder cola larga. Ninguna resume toda la distribución. La lección importante aquí no es “usa siempre mediana” o “usa siempre media”, sino: jamás tomes una sola medida de tendencia central como historia completa.</p>
+        <pre><code>import numpy as np
+
+salarios = np.array([1200, 1300, 1250, 1350, 50000])
+
+print("media:", salarios.mean())
+print("mediana:", np.median(salarios))
+print("desv_std:", salarios.std())</code></pre>
+        <p>Cuando ves que media y mediana se separan fuertemente, debes sospechar sesgo, cola larga o outliers. En negocio eso importa muchísimo. No es lo mismo un segmento de clientes estables con ticket medio 100 que un segmento donde unos pocos clientes enormes arrastran la media a 100.</p>
+
+        <h3>2.3 Varianza: por qué el promedio solo no basta</h3>
+        <p>La varianza mide dispersión alrededor de la media. En entornos operativos, dos procesos con igual promedio pueden tener comportamientos radicalmente distintos si uno es mucho más volátil. Un forecast con error promedio aceptable pero varianza enorme puede ser inútil para planeación. Un score con media razonable pero comportamiento errático entre cohortes puede destruir confianza operativa.</p>
+        <p>Piensa así:</p>
+        <ul>
+          <li>Media te dice dónde está el centro.</li>
+          <li>Varianza te dice cuánto se mueve alrededor de ese centro.</li>
+          <li>Percentiles te dicen cómo se comportan los extremos.</li>
+        </ul>
+
+        <h3>2.4 Probabilidad condicional y tasa base</h3>
+        <p>Si vas a trabajar con fraude, enfermedad rara, screening, riesgo o alertas, este tema no es opcional. La intuición humana falla con facilidad cuando un evento es raro. La pregunta correcta no es solo “qué tan bueno es el test”, sino también “qué tan frecuente es el evento base”.</p>
+        <pre><code>prevalencia = 0.01
+sensibilidad = 0.95
+falso_positivo = 0.05
+
+posterior = (sensibilidad * prevalencia) / (
+    sensibilidad * prevalencia + falso_positivo * (1 - prevalencia)
+)
+print(round(posterior, 3))</code></pre>
+        <p>El resultado suele sorprender. Un test aparentemente fuerte puede arrojar una probabilidad posterior mucho menor de lo esperado cuando la tasa base es muy baja. Esta intuición te salva de malinterpretar scores en problemas raros.</p>
+
+        <h3>2.5 Muestreo e incertidumbre</h3>
+        <p>Cuando mides una métrica de validación, no observas una verdad eterna; observas un valor sobre una muestra finita. Por eso una métrica no debe interpretarse sin pensar en estabilidad. Si cambias la muestra, tu métrica cambia. Si cambias el período, puede cambiar aún más. Si la clase es rara, la varianza puede ser mucho mayor de lo que imaginas.</p>
+        <p>La forma más limpia de internalizar esto es simular.</p>
+        <pre><code>rng = np.random.default_rng(42)
+poblacion = rng.normal(loc=100, scale=15, size=100000)
+medias = []
+
+for _ in range(1000):
+    muestra = rng.choice(poblacion, size=50, replace=False)
+    medias.append(muestra.mean())
+
+print("media de medias:", np.mean(medias))
+print("std de medias:", np.std(medias))</code></pre>
+        <p>Ahora cambia <code>size=50</code> por 20, 100 y 500. Observa qué pasa. Lo importante no es memorizar el teorema; es sentir en el cuerpo que una media o una métrica observada tiene variabilidad.</p>
+
+        <h3>2.6 Correlación y el abuso de una palabra elegante</h3>
+        <p>La correlación lineal es una medida de asociación lineal. No es una prueba de causalidad, ni una garantía de utilidad operativa, ni una señal de estabilidad futura. Puedes tener correlación alta por confusión, por tendencia temporal compartida o por construcción de variables.</p>
+        <p>Más aún: una correlación pequeña no implica que una variable no sea útil. Puede haber relaciones no lineales, interacciones o señales fuertes localizadas en ciertos segmentos.</p>
+
+        <h3>2.7 Qué partes de inferencia te importan de verdad</h3>
+        <p>No necesitas convertirte en teórico para trabajar bien. Pero sí necesitas dominar estas ideas:</p>
+        <ul>
+          <li>Una muestra puede engañarte.</li>
+          <li>Una métrica observada tiene incertidumbre.</li>
+          <li>Una diferencia pequeña entre modelos puede no ser robusta.</li>
+          <li>El mecanismo de captura importa tanto como la fórmula.</li>
+        </ul>
+
+        <h3>2.8 Tutorial completo: simulación para entender medias, varianza y sesgo</h3>
+        <p>Vamos a construir un pequeño laboratorio reproducible.</p>
+        <h4>Paso 1. Crear una población con outliers</h4>
+        <pre><code>import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+rng = np.random.default_rng(7)
+base = rng.normal(loc=100, scale=12, size=5000)
+outliers = rng.normal(loc=250, scale=20, size=30)
+poblacion = np.concatenate([base, outliers])</code></pre>
+        <h4>Paso 2. Mirar media y mediana</h4>
+        <pre><code>print("media poblacional:", poblacion.mean())
+print("mediana poblacional:", np.median(poblacion))</code></pre>
+        <h4>Paso 3. Extraer muchas muestras pequeñas</h4>
+        <pre><code>stats = []
+for _ in range(500):
+    muestra = rng.choice(poblacion, size=40, replace=False)
+    stats.append({
+        "media": muestra.mean(),
+        "mediana": np.median(muestra),
+        "maximo": muestra.max()
+    })
+
+stats = pd.DataFrame(stats)
+print(stats.describe())</code></pre>
+        <h4>Paso 4. Interpretar</h4>
+        <p>Verás que la media muestral puede variar bastante cuando un outlier cae o no cae dentro de la muestra. La mediana tiende a ser más estable. Esta simple simulación te enseña por qué reportar una sola métrica sin contexto puede ser engañoso.</p>
+
+        <div class="exercise">
+          <h4>Ejercicio largo del capítulo</h4>
+          <p>Construye un notebook donde simules: moneda justa y sesgada, media con distintos tamaños de muestra, distribuciones con outliers y un ejemplo de tasa base. Cada bloque debe terminar con una interpretación en lenguaje de negocio. Si no puedes traducir la intuición estadística a una decisión práctica, todavía no la dominas.</p>
+        </div>
+      </section>
+
+      <section id="cap3" class="chapter">
+        <p class="eyebrow">Capitulo 3</p>
+        <h2>Datasets, leakage y feature engineering como trabajo central del proyecto</h2>
+        <p>En muchos cursos, la construcción del dataset aparece como una etapa previa, mecánica y menor. En la práctica, es el corazón del proyecto. El modelo aprende exactamente de la representación que le construyes. Si la representación es mala, el modelo solo hará más eficiente ese error.</p>
+
+        <h3>3.1 El dataset no existe: lo diseñas</h3>
+        <p>Cuando tienes múltiples tablas de transacciones, clientes, tickets, eventos de marketing y logs, el dataset final no está ahí esperando. Debes decidir qué unir, cómo agregar, qué ventana usar y en qué instante “congelar” el mundo para cada observación. Esa congelación es la fecha de corte.</p>
+
+        <h3>3.2 Qué es leakage de verdad</h3>
+        <p>Leakage no es un concepto misterioso. Es simplemente permitir que el modelo vea información que, en el uso real, todavía no existiría al momento de predecir. Eso puede ocurrir de muchas formas:</p>
+        <ul>
+          <li>Variables creadas después del evento objetivo.</li>
+          <li>Agregados temporales que miran más allá de la fecha de corte.</li>
+          <li>Preprocesamiento ajustado sobre train y test juntos.</li>
+          <li>Target encoding mal hecho.</li>
+          <li>Etiquetas construidas con lógica inconsistente.</li>
+        </ul>
+        <p>La razón por la que leakage es tan grave es que no solo mejora artificialmente la métrica: te hace creer que el problema estaba resuelto cuando en realidad construiste un sistema imposible de replicar en producción.</p>
+
+        <h3>3.3 Cardinalidad y joins: donde se rompen muchos proyectos</h3>
+        <p>Antes de unir tablas, debes pensar en cardinalidad. Si tu unidad es cliente y unes directamente una tabla de tickets donde un cliente puede tener diez tickets, multiplicarás filas. A veces eso se detecta. A veces no, y el dataset entero queda distorsionado.</p>
+        <pre><code># Incorrecto si quieres una fila por cliente
+dataset = clientes.merge(tickets, on="cliente_id", how="left")
+
+# Correcto: agregar primero
+tickets_agg = tickets.groupby("cliente_id").agg(
+    tickets_total=("ticket_id", "count"),
+    dias_res_prom=("dias_resolucion", "mean")
+)
+
+dataset = clientes.merge(tickets_agg, on="cliente_id", how="left")</code></pre>
+        <p>Esta disciplina de agregación previa parece básica, pero es exactamente el tipo de detalle que separa un proyecto sólido de uno ruidoso.</p>
+
+        <h3>3.4 Feature engineering con hipótesis y no por ansiedad</h3>
+        <p>Muchos principiantes crean cientos de columnas “por si acaso”. Esa estrategia suele empeorar el proyecto. Buen feature engineering no es cantidad; es representación útil. Cada feature debería responder a una hipótesis razonable sobre el proceso.</p>
+        <p>Ejemplos de features fuertes en un problema de clientes:</p>
+        <ul>
+          <li>Recency: cuánto hace que no compra.</li>
+          <li>Frequency: cuántas compras hace en cierta ventana.</li>
+          <li>Monetary: cuánto gasta.</li>
+          <li>Tendencia: si su gasto está cayendo.</li>
+          <li>Diversidad: cuántas categorías distintas consume.</li>
+          <li>Relación con campañas: abre, hace click, ignora.</li>
+        </ul>
+
+        <h3>3.5 Tutorial completo: construir un dataset de churn sin leakage</h3>
+        <p>Vamos a hacerlo paso a paso. Supón que tienes estas tablas:</p>
+        <ul>
+          <li><code>clientes</code></li>
+          <li><code>ordenes</code></li>
+          <li><code>tickets</code></li>
+          <li><code>email_events</code></li>
+        </ul>
+        <h4>Paso 1. Definir fecha de corte</h4>
+        <pre><code>fecha_corte = pd.Timestamp("2025-06-30")</code></pre>
+        <h4>Paso 2. Filtrar historial disponible</h4>
+        <pre><code>ordenes_hist = ordenes[ordenes["fecha"] <= fecha_corte].copy()
+tickets_hist = tickets[tickets["fecha"] <= fecha_corte].copy()
+emails_hist = email_events[email_events["fecha"] <= fecha_corte].copy()</code></pre>
+        <h4>Paso 3. Crear features de órdenes</h4>
+        <pre><code>features_ordenes = ordenes_hist.groupby("cliente_id").agg(
+    ultima_compra=("fecha", "max"),
+    gasto_90d=("monto", "sum"),
+    ordenes_90d=("orden_id", "count"),
+    ticket_promedio=("monto", "mean")
+)
+features_ordenes["dias_desde_ultima_compra"] = (
+    fecha_corte - features_ordenes["ultima_compra"]
+).dt.days</code></pre>
+        <h4>Paso 4. Crear features de tickets</h4>
+        <pre><code>features_tickets = tickets_hist.groupby("cliente_id").agg(
+    tickets_90d=("ticket_id", "count"),
+    dias_resolucion_prom=("dias_resolucion", "mean")
+)</code></pre>
+        <h4>Paso 5. Crear features de campañas</h4>
+        <pre><code>features_email = emails_hist.groupby("cliente_id").agg(
+    opens_30d=("opened", "sum"),
+    clicks_30d=("clicked", "sum")
+)</code></pre>
+        <h4>Paso 6. Construir la base de features</h4>
+        <pre><code>dataset = clientes.merge(features_ordenes, on="cliente_id", how="left")
+dataset = dataset.merge(features_tickets, on="cliente_id", how="left")
+dataset = dataset.merge(features_email, on="cliente_id", how="left")</code></pre>
+        <h4>Paso 7. Construir el target usando solo el futuro</h4>
+        <pre><code>ordenes_future = ordenes[
+    (ordenes["fecha"] > fecha_corte) &
+    (ordenes["fecha"] <= fecha_corte + pd.Timedelta(days=30))
+]
+
+clientes_con_compra = set(ordenes_future["cliente_id"].unique())
+target = clientes[["cliente_id"]].copy()
+target["churn_30d"] = ~target["cliente_id"].isin(clientes_con_compra)
+target["churn_30d"] = target["churn_30d"].astype(int)</code></pre>
+        <h4>Paso 8. Unir target al final</h4>
+        <pre><code>dataset = dataset.merge(target, on="cliente_id", how="inner")</code></pre>
+        <p>La lógica correcta es: features del pasado, target del futuro, unión al final. Ese patrón lo debes repetir hasta que te salga natural.</p>
+
+        <h3>3.6 Imputación y significado del nulo</h3>
+        <p>No todos los nulos significan “falta de dato”. A veces significan “ausencia del fenómeno”. Que un cliente no tenga tickets de soporte no es lo mismo que no saber cuántos tickets tuvo. Esa diferencia define si debes imputar con cero, con mediana, con una categoría aparte o con un indicador de nulo.</p>
+
+        <h3>3.7 Feature engineering temporal</h3>
+        <p>En problemas temporales o semitemporales, las mejores variables suelen emerger de ventanas móviles, tendencias, tasas de cambio y acumulados históricos. Pero cada una debe respetar la fecha de corte. Una media móvil mal alineada puede introducir leakage sin que lo notes.</p>
+
+        <div class="exercise">
+          <h4>Ejercicio largo del capítulo</h4>
+          <p>Diseña de principio a fin un dataset de churn o fraude. Debes entregar: unidad de análisis, fecha de corte, target, joins, features, validaciones, riesgos de leakage y una tabla de ejemplos de errores posibles. Si haces esto bien, ya estás haciendo trabajo serio de data science.</p>
+        </div>
+      </section>
+
+      <section id="cap4" class="chapter">
+        <p class="eyebrow">Capitulo 4</p>
+        <h2>Modelado supervisado paso a paso: de baseline a sistema defendible</h2>
+        <p>Hay una diferencia grande entre “entrenar un modelo” y “construir un sistema supervisado bien defendido”. El segundo exige comparación honesta, pipelines consistentes, validación correcta y análisis de errores. Este capítulo está diseñado para que entiendas exactamente qué estás haciendo cuando entrenas una regresión logística, un random forest o un modelo de boosting sobre datos tabulares.</p>
+
+        <h3>4.1 Por qué empezar simple no es ser ingenuo</h3>
+        <p>Un baseline simple no es una pérdida de tiempo. Es una herramienta para medir realidad. Si un modelo lineal ya captura buena parte de la señal, esa información es valiosa. Si un baseline simple rinde casi igual que un modelo mucho más complejo, eso también es una señal importante sobre costo, interpretabilidad y mantenimiento.</p>
+        <p>Los baselines sanos suelen ser:</p>
+        <ul>
+          <li>Regla heurística de negocio.</li>
+          <li>Promedio o valor anterior si es regresión.</li>
+          <li>Regresión lineal o logística.</li>
+        </ul>
+
+        <h3>4.2 Regresión logística, bien entendida</h3>
+        <p>La regresión logística no debe aprenderse como una “fórmula para clasificación”. La intuición correcta es que modela una relación entre features y log-odds del evento. Eso te permite convertir una combinación de señales en una probabilidad estimada. Aunque sea simple, sigue siendo una herramienta extremadamente fuerte para problemas tabulares y como baseline interpretable.</p>
+        <p>Sus ventajas:</p>
+        <ul>
+          <li>Rápida de entrenar.</li>
+          <li>Buena para empezar.</li>
+          <li>Compatible con probabilidades interpretables si está bien calibrada.</li>
+          <li>Fácil de comparar con reglas simples.</li>
+        </ul>
+
+        <h3>4.3 Árboles y ensambles</h3>
+        <p>Los árboles aprenden reglas del tipo “si pasa A y no pasa B, entonces riesgo alto”. Son muy útiles para capturar no linealidades e interacciones sin exigir mucho preprocesamiento numérico. El problema es que un árbol individual suele tener alta varianza. Por eso aparecen ensambles como random forest y gradient boosting.</p>
+        <p><strong>Random forest</strong> reduce varianza promediando muchos árboles. <strong>Gradient boosting</strong> construye árboles secuencialmente corrigiendo errores previos. En datos tabulares, boosting suele ser una referencia muy fuerte.</p>
+
+        <h3>4.4 La razón técnica de usar pipelines</h3>
+        <p>Un pipeline no es decoración de código. Es una defensa estructural contra inconsistencias. Si imputas, escalas, codificas o transformas manualmente fuera del pipeline, es muy fácil cometer errores entre entrenamiento, validación e inferencia. El pipeline te obliga a encapsular ese proceso.</p>
+        <pre><code>from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+from sklearn.impute import SimpleImputer
+from sklearn.preprocessing import OneHotEncoder, StandardScaler
+from sklearn.linear_model import LogisticRegression
+
+num_cols = ["edad", "dias_desde_ultima_compra", "gasto_90d", "ticket_promedio"]
+cat_cols = ["canal", "pais"]
+
+num_pipe = Pipeline([
+    ("imputer", SimpleImputer(strategy="median")),
+    ("scaler", StandardScaler())
+])
+
+cat_pipe = Pipeline([
+    ("imputer", SimpleImputer(strategy="most_frequent")),
+    ("onehot", OneHotEncoder(handle_unknown="ignore"))
+])
+
+preprocess = ColumnTransformer([
+    ("num", num_pipe, num_cols),
+    ("cat", cat_pipe, cat_cols)
+])
+
+logit = Pipeline([
+    ("preprocess", preprocess),
+    ("model", LogisticRegression(max_iter=2000))
+])</code></pre>
+        <p>Aquí ya tienes algo reproducible y coherente. Esa coherencia importa muchísimo más de lo que parece al principio.</p>
+
+        <h3>4.5 Tutorial completo: churn model de punta a punta</h3>
+        <h4>Paso 1. Separar features y target</h4>
+        <pre><code>X = dataset.drop(columns=["churn_30d"])
+y = dataset["churn_30d"]</code></pre>
+        <h4>Paso 2. Split correcto</h4>
+        <pre><code>from sklearn.model_selection import train_test_split
+
+X_train, X_valid, y_train, y_valid = train_test_split(
+    X, y,
+    test_size=0.2,
+    random_state=42,
+    stratify=y
+)</code></pre>
+        <p>La estratificación ayuda a mantener proporciones similares de clases, útil cuando hay desbalance moderado o alto.</p>
+        <h4>Paso 3. Entrenar baseline logístico</h4>
+        <pre><code>logit.fit(X_train, y_train)
+valid_proba_logit = logit.predict_proba(X_valid)[:, 1]</code></pre>
+        <h4>Paso 4. Entrenar random forest</h4>
+        <pre><code>from sklearn.ensemble import RandomForestClassifier
+
+rf = Pipeline([
+    ("preprocess", preprocess),
+    ("model", RandomForestClassifier(
+        n_estimators=400,
+        max_depth=None,
+        min_samples_leaf=5,
+        random_state=42
+    ))
+])
+
+rf.fit(X_train, y_train)
+valid_proba_rf = rf.predict_proba(X_valid)[:, 1]</code></pre>
+        <h4>Paso 5. Medir algo razonable</h4>
+        <pre><code>from sklearn.metrics import roc_auc_score, average_precision_score
+
+print("ROC-AUC logit:", roc_auc_score(y_valid, valid_proba_logit))
+print("PR-AUC logit:", average_precision_score(y_valid, valid_proba_logit))
+
+print("ROC-AUC rf:", roc_auc_score(y_valid, valid_proba_rf))
+print("PR-AUC rf:", average_precision_score(y_valid, valid_proba_rf))</code></pre>
+        <p>ROC-AUC es útil, pero en eventos raros conviene mirar también PR-AUC. Ya aquí debes entrenarte a no confiar en una sola métrica.</p>
+        <h4>Paso 6. Elegir threshold según la operación</h4>
+        <pre><code>import numpy as np
+import pandas as pd
+from sklearn.metrics import precision_score, recall_score
+
+rows = []
+for t in np.arange(0.1, 0.91, 0.1):
+    pred = (valid_proba_rf >= t).astype(int)
+    rows.append({
+        "threshold": t,
+        "precision": precision_score(y_valid, pred),
+        "recall": recall_score(y_valid, pred),
+        "predicted_positive": int(pred.sum())
+    })
+
+threshold_table = pd.DataFrame(rows)
+print(threshold_table)</code></pre>
+        <p>Esta tabla es mucho más valiosa para negocio que una única métrica aislada. Te dice cuántos casos activarías y qué calidad tiene esa activación.</p>
+        <h4>Paso 7. Error analysis</h4>
+        <pre><code>valid_result = X_valid.copy()
+valid_result["y_true"] = y_valid.values
+valid_result["score"] = valid_proba_rf
+valid_result["pred"] = (valid_result["score"] >= 0.4).astype(int)
+
+falsos_positivos = valid_result[(valid_result["pred"] == 1) & (valid_result["y_true"] == 0)]
+falsos_negativos = valid_result[(valid_result["pred"] == 0) & (valid_result["y_true"] == 1)]</code></pre>
+        <p>Aquí empieza una de las partes más formativas del proyecto. Toma muestras de falsos positivos y falsos negativos. Pregunta:</p>
+        <ul>
+          <li>Qué tipo de clientes son.</li>
+          <li>Qué patrones comunes aparecen.</li>
+          <li>Si falta una feature importante.</li>
+          <li>Si el problema está en el threshold y no en el ranking.</li>
+        </ul>
+
+        <h3>4.6 Overfitting y underfitting en lenguaje práctico</h3>
+        <p>El overfitting no es solo “el modelo memorizó”. En práctica significa que aprendió patrones demasiado específicos del entrenamiento que no se sostienen fuera de muestra. El underfitting significa que tu representación o tu modelo son demasiado pobres para capturar la señal disponible.</p>
+        <p>Señales típicas:</p>
+        <ul>
+          <li>Muy buen train y mala validación: sospecha overfitting.</li>
+          <li>Malo train y mala validación: sospecha underfitting, mal target o mala representación.</li>
+        </ul>
+
+        <h3>4.7 Lo que de verdad deberías comparar entre modelos</h3>
+        <p>No compares solo score. Compara:</p>
+        <ul>
+          <li>Calidad de ranking.</li>
+          <li>Calibración.</li>
+          <li>Estabilidad por segmento y tiempo.</li>
+          <li>Costo de entrenamiento.</li>
+          <li>Interpretabilidad.</li>
+          <li>Complejidad de mantenimiento.</li>
+        </ul>
+        <p>A veces un modelo ligeramente peor en métrica global es mejor sistema total porque es más estable, más explicable y más barato de operar.</p>
+
+        <div class="exercise">
+          <h4>Ejercicio largo del capítulo</h4>
+          <p>Repite este tutorial con un dataset real. Debes entregar: baseline heurístico, regresión logística, random forest o boosting, tabla de thresholds, revisión de falsos positivos, revisión de falsos negativos y recomendación final razonada. Si tu recomendación final es “elegí el modelo con mejor ROC-AUC”, te faltó profundidad.</p>
+        </div>
+      </section>
+
+      <section class="chapter">
+        <p class="eyebrow">Cierre del volumen</p>
+        <h2>Qué deberías poder hacer después de este volumen</h2>
+        <ul>
+          <li>Formular correctamente un problema de ML.</li>
+          <li>Construir un dataset sin leakage obvio.</li>
+          <li>Explicar con criterio media, varianza, muestreo y tasa base.</li>
+          <li>Hacer EDA con decisiones, no con gráficos vacíos.</li>
+          <li>Construir un pipeline supervisado de punta a punta.</li>
+          <li>Defender la elección de modelo, threshold y política de acción.</li>
+        </ul>
+        <p>Si quieres llegar al nivel que describiste, este es el enfoque correcto: menos resumen y más volumen real de lectura, criterio y tutoriales completos. Este volumen sigue siendo solo el principio, pero ya se mueve en una dirección mucho más seria que el material anterior.</p>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

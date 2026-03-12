@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Libro Profundo Vol. 2 - Evaluacion, Forecasting, Causalidad y MLOps</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f6f1e7;
+      --paper: #fffaf2;
+      --ink: #17231c;
+      --muted: #5a6b61;
+      --accent: #0f766e;
+      --border: rgba(23, 35, 28, 0.12);
+      --shadow: 0 20px 55px rgba(23, 35, 28, 0.12);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: "Source Serif 4", serif;
+      background:
+        radial-gradient(circle at top right, rgba(15,118,110,0.12), transparent 24%),
+        linear-gradient(180deg, #f7f4ed 0%, #efe7da 100%);
+    }
+    .layout { display: grid; grid-template-columns: 320px 1fr; min-height: 100vh; }
+    .sidebar {
+      position: sticky; top: 0; height: 100vh; overflow-y: auto;
+      padding: 24px; background: rgba(252,248,240,0.94); border-right: 1px solid var(--border);
+    }
+    .content { padding: 32px; }
+    .card, .hero, .chapter {
+      background: var(--paper);
+      border: 1px solid rgba(255,255,255,0.5);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+    }
+    .card { padding: 18px; margin-bottom: 16px; }
+    .hero { padding: 28px; margin-bottom: 20px; }
+    .chapter { padding: 34px; margin-bottom: 22px; }
+    .eyebrow {
+      font-family: "IBM Plex Sans", sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      font-size: 0.72rem;
+      color: var(--accent);
+      font-weight: 700;
+    }
+    h1, h2, h3, h4 { margin-top: 0; }
+    h1, h2, h3, h4 { font-family: "Source Serif 4", serif; }
+    p, li { line-height: 1.82; font-size: 1.05rem; }
+    .muted { color: var(--muted); font-family: "IBM Plex Sans", sans-serif; }
+    .toc { display: grid; gap: 10px; }
+    .toc a {
+      display: block; text-decoration: none; color: var(--ink);
+      background: rgba(15,118,110,0.06); border-radius: 16px; padding: 12px 14px;
+      font-family: "IBM Plex Sans", sans-serif;
+    }
+    pre {
+      background: #12211d; color: #eefcf8; border-radius: 18px; padding: 18px;
+      overflow-x: auto; font-family: "IBM Plex Mono", monospace; font-size: 0.92rem; line-height: 1.6;
+    }
+    code { font-family: "IBM Plex Mono", monospace; font-size: 0.92em; }
+    .callout {
+      border-left: 4px solid var(--accent); padding: 10px 0 10px 16px;
+      background: rgba(15,118,110,0.05); border-radius: 0 14px 14px 0; margin: 18px 0;
+    }
+    .exercise {
+      margin-top: 24px; padding: 18px 20px; border-radius: 18px;
+      background: rgba(199,140,47,0.08); border: 1px solid rgba(199,140,47,0.16);
+    }
+    @media (max-width: 1100px) {
+      .layout { grid-template-columns: 1fr; }
+      .sidebar { position: static; height: auto; }
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="card">
+        <p class="eyebrow">Libro largo</p>
+        <h1>Volumen 2</h1>
+        <p class="muted">Evaluación honesta, forecasting, causalidad, interpretabilidad y producción.</p>
+      </div>
+      <div class="card">
+        <h3>Tabla de contenido</h3>
+        <nav class="toc">
+          <a href="#cap5">Capitulo 5. Evaluacion profunda y thresholds</a>
+          <a href="#cap6">Capitulo 6. Forecasting y backtesting serio</a>
+          <a href="#cap7">Capitulo 7. Causalidad y experimentacion</a>
+          <a href="#cap8">Capitulo 8. Produccion, monitoreo y MLOps</a>
+        </nav>
+      </div>
+    </aside>
+
+    <main class="content">
+      <section class="hero">
+        <p class="eyebrow">Continuacion</p>
+        <h2>Del modelo entrenado al sistema que realmente puedes defender</h2>
+        <p>Este volumen continúa donde termina el primero. Ya no se trata solo de entrenar modelos, sino de medirlos bien, operar con ellos, construir pronósticos robustos y distinguir predicción de impacto causal. Aquí es donde mucha gente se queda corta incluso después de haber aprendido librerías.</p>
+      </section>
+
+      <section id="cap5" class="chapter">
+        <p class="eyebrow">Capitulo 5</p>
+        <h2>Evaluacion profunda, thresholds y analisis de error</h2>
+        <p>Una gran cantidad de proyectos fracasa no porque el modelo sea técnicamente malo, sino porque fue evaluado de forma ingenua. La evaluación en machine learning no consiste en imprimir una métrica bonita. Consiste en construir una aproximación honesta al comportamiento del sistema bajo las condiciones en las que realmente será usado.</p>
+
+        <h3>5.1 Train, validation y test no son nombres decorativos</h3>
+        <p>La separación entre entrenamiento, validación y test cumple una función metodológica. Train sirve para ajustar parámetros. Validation sirve para comparar enfoques, seleccionar umbrales e hiperparámetros. Test sirve para obtener una estimación final. Si consultas el test una y otra vez, deja de ser un test; se convierte en otra validación contaminada.</p>
+        <p>La lógica aquí es sencilla: cada vez que miras el test y cambias una decisión en función de ese resultado, estás aprendiendo algo del test y adaptándote a él. Eso erosiona la honestidad de la evaluación.</p>
+
+        <h3>5.2 Accuracy: por qué a menudo es una trampa</h3>
+        <p>Accuracy es intuitiva, y precisamente por eso seduce demasiado. Pero en problemas desbalanceados suele ser una métrica floja. Si el fraude ocurre en 1 por ciento de las transacciones, un modelo que diga “no fraude” siempre tendría 99 por ciento de accuracy y sería completamente inútil.</p>
+        <p>La pregunta correcta no es “qué accuracy tengo”, sino “qué comportamiento operativo induce este sistema”.</p>
+
+        <h3>5.3 Precision, recall y la forma correcta de pensarlos</h3>
+        <p><strong>Precision</strong> responde: de lo que marqué como positivo, cuánto realmente lo era. <strong>Recall</strong> responde: de todos los positivos reales, cuántos capturé. Pero no basta recitar esto. Debes conectarlo con costos reales.</p>
+        <ul>
+          <li>En fraude, recall alto puede ser crucial si dejar escapar fraude es muy caro.</li>
+          <li>En una revisión humana limitada, precision también importa mucho porque demasiados falsos positivos saturan al equipo.</li>
+        </ul>
+        <p>Por eso las métricas no se eligen solo por elegancia matemática; se eligen por estructura de costos y capacidad operativa.</p>
+
+        <h3>5.4 PR-AUC y ROC-AUC</h3>
+        <p>ROC-AUC es útil para medir la capacidad de ranking a través de múltiples thresholds, pero en eventos raros puede seguir viéndose bien aunque el sistema operativo sea pobre. PR-AUC suele ser más informativa cuando el positivo es escaso, porque enfatiza la relación entre precisión y recall en el espacio que más importa.</p>
+
+        <h3>5.5 Thresholds: la capa donde el score se convierte en acción</h3>
+        <p>Un modelo probabilístico produce scores. El sistema real actúa a través de un threshold o una política. Esa política no es un detalle menor. Es parte central del diseño. Si tu equipo puede revisar solo 200 casos por día, el threshold debe alinearse con esa restricción. Si el costo del falso negativo es enorme, quizá quieras bajar el threshold. No existe un 0.5 universalmente correcto.</p>
+        <pre><code>import numpy as np
+import pandas as pd
+from sklearn.metrics import precision_score, recall_score, f1_score
+
+rows = []
+for t in np.arange(0.05, 0.96, 0.05):
+    pred = (valid_proba >= t).astype(int)
+    rows.append({
+        "threshold": round(t, 2),
+        "precision": precision_score(y_valid, pred),
+        "recall": recall_score(y_valid, pred),
+        "f1": f1_score(y_valid, pred),
+        "positivos_predichos": int(pred.sum())
+    })
+
+threshold_table = pd.DataFrame(rows)
+print(threshold_table)</code></pre>
+        <p>Esta tabla es un instrumento de decisión. Te dice cómo cambia el sistema cuando mueves el threshold. Esa es una conversación entre data science y operación, no solo entre modeladores.</p>
+
+        <h3>5.6 Analisis de error: donde realmente aprendes</h3>
+        <p>Si solo comparas métricas, aprendes poco. Si revisas errores, aprendes mucho más. El análisis de error responde preguntas como:</p>
+        <ul>
+          <li>Qué tipos de casos se convierten en falsos positivos.</li>
+          <li>Qué tipo de positivos reales se están escapando.</li>
+          <li>Si hay segmentos sistemáticamente mal tratados.</li>
+          <li>Si falta una señal en las features.</li>
+          <li>Si el problema es ranking, calibración o threshold.</li>
+        </ul>
+        <pre><code>valid_result = X_valid.copy()
+valid_result["y_true"] = y_valid.values
+valid_result["score"] = valid_proba
+valid_result["pred"] = (valid_result["score"] >= 0.35).astype(int)
+
+fp = valid_result[(valid_result["pred"] == 1) & (valid_result["y_true"] == 0)]
+fn = valid_result[(valid_result["pred"] == 0) & (valid_result["y_true"] == 1)]</code></pre>
+        <p>La siguiente tarea no es técnica: toma 20 ejemplos de cada grupo y estúdialos como si fueras auditor del sistema.</p>
+
+        <h3>5.7 Tutorial completo: evaluación operativa para churn</h3>
+        <h4>Paso 1. Métricas de ranking</h4>
+        <pre><code>from sklearn.metrics import roc_auc_score, average_precision_score
+
+roc = roc_auc_score(y_valid, valid_proba)
+pr = average_precision_score(y_valid, valid_proba)
+print("ROC-AUC:", roc)
+print("PR-AUC:", pr)</code></pre>
+        <h4>Paso 2. Tabla por thresholds</h4>
+        <p>Usa el bloque anterior de thresholds.</p>
+        <h4>Paso 3. Lift en el top 10 por ciento</h4>
+        <pre><code>valid_eval = pd.DataFrame({
+    "score": valid_proba,
+    "y_true": y_valid.values
+}).sort_values("score", ascending=False)
+
+n_top = int(len(valid_eval) * 0.10)
+top = valid_eval.head(n_top)
+
+rate_top = top["y_true"].mean()
+rate_global = valid_eval["y_true"].mean()
+lift = rate_top / rate_global
+print("lift_top_10pct:", lift)</code></pre>
+        <p>Ahora sí tienes una métrica muy cercana a una política real de campaña.</p>
+        <h4>Paso 4. Revisar errores por segmento</h4>
+        <pre><code>valid_result["canal"] = X_valid["canal"].values
+
+segment_report = valid_result.groupby("canal").agg(
+    score_prom=("score", "mean"),
+    positivos_reales=("y_true", "mean"),
+    positivos_predichos=("pred", "mean")
+)
+print(segment_report)</code></pre>
+        <p>Si el sistema trata de forma muy distinta a segmentos relevantes, eso debe entrar en la recomendación final.</p>
+
+        <div class="callout">
+          <p><strong>Idea central:</strong> la evaluación correcta no es “qué score obtuvo el modelo”, sino “qué sistema estoy construyendo cuando convierto este score en decisiones”.</p>
+        </div>
+
+        <div class="exercise">
+          <h4>Ejercicio largo del capítulo</h4>
+          <p>Toma un problema binario y entrega un reporte que incluya: ROC-AUC, PR-AUC, tabla de thresholds, lift operativo, análisis por segmento y revisión manual de al menos 15 falsos positivos y 15 falsos negativos. Si no haces esa revisión manual, te estarás perdiendo una de las fuentes de aprendizaje más fuertes de todo el proceso.</p>
+        </div>
+      </section>
+
+      <section id="cap6" class="chapter">
+        <p class="eyebrow">Capitulo 6</p>
+        <h2>Forecasting serio: cómo construir pronósticos útiles y no modelos optimistas</h2>
+        <p>El forecasting exige una forma de pensar distinta. Aquí no basta con “tener una columna fecha”. En series de tiempo, la estructura causal del tiempo es el problema mismo. Si violas esa estructura, tu evaluación deja de parecerse al mundo real y tus resultados se vuelven artificialmente optimistas.</p>
+
+        <h3>6.1 Lo que hace distinto a un problema temporal</h3>
+        <p>En clasificación o regresión tabular, un split aleatorio puede ser razonable en muchos casos. En forecasting suele ser incorrecto. La razón es simple: en producción, siempre predecirás el futuro desde el pasado. Mezclar ambos en validación rompe la causalidad del problema.</p>
+
+        <h3>6.2 Componentes de una serie</h3>
+        <p>Una serie temporal puede combinar:</p>
+        <ul>
+          <li>Tendencia.</li>
+          <li>Estacionalidad.</li>
+          <li>Ciclos.</li>
+          <li>Eventos o shocks.</li>
+          <li>Ruido.</li>
+        </ul>
+        <p>Un error común es tratar todo como si fuera una función suave y estable. En negocio, promociones, quiebres de stock, feriados y cambios operativos pueden alterar drásticamente la dinámica.</p>
+
+        <h3>6.3 Baselines temporales</h3>
+        <p>Antes de cualquier modelo sofisticado, necesitas baselines simples pero fuertes:</p>
+        <ul>
+          <li>Último valor observado.</li>
+          <li>Mismo día de la semana anterior.</li>
+          <li>Promedio móvil.</li>
+          <li>Promedio histórico por día de semana.</li>
+        </ul>
+        <p>Si tu modelo no supera claramente estos baselines, probablemente no merece despliegue.</p>
+
+        <h3>6.4 Features temporales correctas</h3>
+        <pre><code>df = df.sort_values("fecha")
+df["lag_1"] = df["ventas"].shift(1)
+df["lag_7"] = df["ventas"].shift(7)
+df["lag_28"] = df["ventas"].shift(28)
+df["ma_7"] = df["ventas"].shift(1).rolling(7).mean()
+df["ma_28"] = df["ventas"].shift(1).rolling(28).mean()
+df["dow"] = df["fecha"].dt.dayofweek
+df["month"] = df["fecha"].dt.month</code></pre>
+        <p>El detalle técnico importante es el <code>shift(1)</code> antes de la media móvil. Sin eso, estarías usando el valor del mismo día dentro de la feature, lo que equivale a meter información del objetivo en la entrada.</p>
+
+        <h3>6.5 Backtesting</h3>
+        <p>Backtesting significa simular varios puntos históricos de entrenamiento y validación. No te interesa solo un corte arbitrario. Te interesa ver cómo habría funcionado el modelo repetidamente si hubieras vivido en distintos momentos del pasado.</p>
+        <p>Ese patrón es crucial porque una sola ventana puede favorecer o perjudicar artificialmente a un enfoque.</p>
+
+        <h3>6.6 Tutorial completo: forecast diario de demanda</h3>
+        <h4>Paso 1. Crear features</h4>
+        <p>Usa el bloque de lags y medias móviles.</p>
+        <h4>Paso 2. Eliminar filas iniciales incompletas</h4>
+        <pre><code>model_df = df.dropna().copy()</code></pre>
+        <h4>Paso 3. Definir train y validation por fecha</h4>
+        <pre><code>train = model_df[model_df["fecha"] < "2024-10-01"].copy()
+valid = model_df[model_df["fecha"] >= "2024-10-01"].copy()</code></pre>
+        <h4>Paso 4. Baseline lag-7</h4>
+        <pre><code>from sklearn.metrics import mean_absolute_error
+
+mae_baseline = mean_absolute_error(valid["ventas"], valid["lag_7"])
+print("MAE baseline lag_7:", mae_baseline)</code></pre>
+        <h4>Paso 5. Modelo supervisado</h4>
+        <pre><code>from sklearn.ensemble import RandomForestRegressor
+
+feature_cols = ["lag_1", "lag_7", "lag_28", "ma_7", "ma_28", "dow", "month"]
+
+rf = RandomForestRegressor(
+    n_estimators=400,
+    min_samples_leaf=3,
+    random_state=42
+)
+
+rf.fit(train[feature_cols], train["ventas"])
+pred = rf.predict(valid[feature_cols])
+
+mae_model = mean_absolute_error(valid["ventas"], pred)
+print("MAE model:", mae_model)</code></pre>
+        <h4>Paso 6. Errores por segmento temporal</h4>
+        <pre><code>valid_eval = valid[["fecha", "ventas"]].copy()
+valid_eval["pred"] = pred
+valid_eval["abs_error"] = (valid_eval["ventas"] - valid_eval["pred"]).abs()
+valid_eval["month"] = valid_eval["fecha"].dt.month
+
+print(valid_eval.groupby("month")["abs_error"].mean())</code></pre>
+        <p>Este análisis ya empieza a decirte si tu modelo falla en temporadas concretas. Esa información suele ser más útil que una sola MAE agregada.</p>
+
+        <div class="exercise">
+          <h4>Ejercicio largo del capítulo</h4>
+          <p>Construye un notebook de forecasting con: EDA temporal, al menos dos baselines, un modelo supervisado, backtesting con varias ventanas y análisis de errores por temporada. La conclusión final debe responder si el modelo merece usarse y bajo qué condiciones.</p>
+        </div>
+      </section>
+
+      <section id="cap7" class="chapter">
+        <p class="eyebrow">Capitulo 7</p>
+        <h2>Causalidad y experimentacion: porque predecir bien no basta</h2>
+        <p>Un modelo predictivo puede decirte quién probablemente hará algo. Pero muchas decisiones de negocio no preguntan eso. Preguntan otra cosa: qué pasará si intervengo. Esa es una pregunta causal, no predictiva. Confundir ambas es una de las fuentes más persistentes de decisiones equivocadas en data science aplicada.</p>
+
+        <h3>7.1 Predicción vs efecto de intervención</h3>
+        <p>Supongamos que construyes un modelo que identifica clientes con alta probabilidad de comprar. Eso no significa automáticamente que ofrecerles un descuento aumentará compras. Quizá comprarían de todas formas. La pregunta predictiva es “quién comprará”. La pregunta causal es “a quién conviene ofrecer descuento para cambiar el resultado”. Son preguntas diferentes.</p>
+
+        <h3>7.2 Qué resuelve un A/B test</h3>
+        <p>Un experimento aleatorizado busca estimar el efecto de una intervención reduciendo sesgos sistemáticos entre grupos. Su fuerza está en que, idealmente, la randomización rompe la correlación entre tratamiento y otros factores no observados.</p>
+        <p>Un diseño mínimo incluye:</p>
+        <ul>
+          <li>Hipótesis.</li>
+          <li>Población elegible.</li>
+          <li>Tratamiento y control.</li>
+          <li>Métrica primaria.</li>
+          <li>Duración o criterio de tamaño muestral.</li>
+          <li>Regla de decisión predefinida.</li>
+        </ul>
+
+        <h3>7.3 El problema de los observacionales</h3>
+        <p>Si en datos históricos el equipo comercial contactó antes a los clientes más prometedores, entonces “haber sido contactado” probablemente estará asociado a una mayor conversión. Pero esa asociación no implica que la llamada haya causado toda la diferencia. Ahí entra el sesgo de selección.</p>
+
+        <h3>7.4 Tutorial: diseñar un experimento de email</h3>
+        <h4>Pregunta</h4>
+        <p>Queremos saber si una nueva versión de email aumenta la conversión a 7 días.</p>
+        <h4>Diseño</h4>
+        <ul>
+          <li>Población: clientes activos elegibles para campaña.</li>
+          <li>Tratamiento: nuevo email.</li>
+          <li>Control: email actual.</li>
+          <li>Métrica primaria: tasa de conversión a 7 días.</li>
+          <li>Métricas secundarias: apertura, click, unsubscribe.</li>
+          <li>Duración: hasta alcanzar tamaño muestral mínimo o dos semanas, lo que ocurra después.</li>
+        </ul>
+        <h4>Error frecuente</h4>
+        <p>Cambiar la métrica principal después de ver los resultados. Eso degrada la credibilidad del experimento.</p>
+
+        <div class="exercise">
+          <h4>Ejercicio largo del capítulo</h4>
+          <p>Diseña tres experimentos: uno para marketing, uno para pricing y uno para UX. En cada uno debes escribir hipótesis, población, tratamiento, control, métrica principal, riesgos y criterio de decisión. Si no puedes hacer eso con claridad, todavía estás pensando solo en predicción y no en impacto.</p>
+        </div>
+      </section>
+
+      <section id="cap8" class="chapter">
+        <p class="eyebrow">Capitulo 8</p>
+        <h2>Produccion, monitoreo y MLOps: convertir un modelo en sistema</h2>
+        <p>Un notebook con una métrica alta no es un producto. Un sistema de ML en producción necesita contratos, versionado, monitoreo y criterio operativo. Este capítulo busca que dejes de pensar en el modelo como objeto aislado y empieces a verlo como parte de una arquitectura mayor.</p>
+
+        <h3>8.1 Batch vs realtime</h3>
+        <p>Elegir realtime por prestigio técnico es un error común. Muchas decisiones no requieren latencia de milisegundos. Un scoring batch diario puede ser más que suficiente para campañas, pricing programado, riesgo periódico o forecast operativo. Batch suele ser más simple, más barato y más robusto.</p>
+
+        <h3>8.2 Qué debe versionarse</h3>
+        <ul>
+          <li>Código.</li>
+          <li>Snapshot o referencia de datos de entrenamiento.</li>
+          <li>Pipeline de features.</li>
+          <li>Artefacto del modelo.</li>
+          <li>Métricas observadas.</li>
+          <li>Configuración del experimento.</li>
+        </ul>
+        <p>Versionar solo el archivo del modelo es muy poco. Si no puedes reconstruir cómo se entrenó, no tienes trazabilidad real.</p>
+
+        <h3>8.3 Monitoreo: más allá de latencia y errores HTTP</h3>
+        <p>El monitoreo técnico importa, pero no basta. Un sistema de ML también debe monitorear:</p>
+        <ul>
+          <li>Distribución de features de entrada.</li>
+          <li>Distribución de scores.</li>
+          <li>Tasa de cobertura.</li>
+          <li>Drift respecto al entrenamiento.</li>
+          <li>Calidad de datos de entrada.</li>
+          <li>Performance posterior cuando existan labels tardías.</li>
+        </ul>
+
+        <h3>8.4 Tutorial mínimo de servicio de predicción</h3>
+        <pre><code>from fastapi import FastAPI
+import joblib
+import pandas as pd
+
+app = FastAPI()
+model = joblib.load("model.joblib")
+
+@app.post("/predict")
+def predict(payload: dict):
+    df = pd.DataFrame([payload])
+    score = float(model.predict_proba(df)[:, 1][0])
+    return {"score": score}</code></pre>
+        <p>Este ejemplo es deliberadamente mínimo. Le faltan validación, autenticación, versionado, logging estructurado, timeouts, manejo de fallos y monitoreo. Precisamente por eso es útil: te muestra cuántas capas hay entre “tengo un modelo” y “tengo un sistema serio”.</p>
+
+        <h3>8.5 Criterio de retraining</h3>
+        <p>Un sistema de ML no se entrena una vez y se olvida. Debes definir cuándo volver a entrenar. Las razones pueden ser:</p>
+        <ul>
+          <li>Drift fuerte en entradas.</li>
+          <li>Caída de performance observada.</li>
+          <li>Cambio de negocio o definición del target.</li>
+          <li>Ingreso de nuevas fuentes de señal.</li>
+        </ul>
+        <p>También debes decidir si el retraining será periódico, por evento o híbrido.</p>
+
+        <div class="callout">
+          <p><strong>Idea central:</strong> producción no es “poner una API”. Es diseñar un sistema que siga siendo confiable cuando cambian los datos, las operaciones y las condiciones del negocio.</p>
+        </div>
+
+        <div class="exercise">
+          <h4>Ejercicio largo del capítulo</h4>
+          <p>Dibuja la arquitectura completa de uno de tus proyectos: fuentes, generación de features, entrenamiento, registro, despliegue, consumidor final, monitoreo y retraining. Escribe además una lista de fallos posibles y qué harías en cada uno. Ese ejercicio te obliga a pensar como ingeniero de sistemas de ML y no solo como modelador.</p>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

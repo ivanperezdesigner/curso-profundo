@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Libro Profundo Vol. 4 - NLP, Embeddings y Vision</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root { --paper:#fffaf2; --ink:#17231c; --muted:#596a60; --accent:#0f766e; --border:rgba(23,35,28,0.12); --shadow:0 20px 55px rgba(23,35,28,0.12); }
+    *{box-sizing:border-box} body{margin:0;color:var(--ink);font-family:"Source Serif 4",serif;background:radial-gradient(circle at top right,rgba(15,118,110,.12),transparent 24%),linear-gradient(180deg,#f7f4ed 0%,#efe7da 100%)}
+    .layout{display:grid;grid-template-columns:320px 1fr;min-height:100vh}.sidebar{position:sticky;top:0;height:100vh;overflow-y:auto;padding:24px;background:rgba(252,248,240,.94);border-right:1px solid var(--border)}.content{padding:32px}
+    .card,.hero,.chapter{background:var(--paper);border:1px solid rgba(255,255,255,.5);border-radius:24px;box-shadow:var(--shadow)}.card{padding:18px;margin-bottom:16px}.hero{padding:28px;margin-bottom:20px}.chapter{padding:34px;margin-bottom:22px}
+    .eyebrow{font-family:"IBM Plex Sans",sans-serif;text-transform:uppercase;letter-spacing:.18em;font-size:.72rem;color:var(--accent);font-weight:700}
+    h1,h2,h3,h4{font-family:"Source Serif 4",serif;margin-top:0} p,li{line-height:1.82;font-size:1.05rem}.muted{color:var(--muted);font-family:"IBM Plex Sans",sans-serif}
+    .toc{display:grid;gap:10px}.toc a{display:block;text-decoration:none;color:var(--ink);background:rgba(15,118,110,.06);border-radius:16px;padding:12px 14px;font-family:"IBM Plex Sans",sans-serif}
+    pre{background:#12211d;color:#eefcf8;border-radius:18px;padding:18px;overflow-x:auto;font-family:"IBM Plex Mono",monospace;font-size:.92rem;line-height:1.6} code{font-family:"IBM Plex Mono",monospace;font-size:.92em}
+    .callout{border-left:4px solid var(--accent);padding:10px 0 10px 16px;background:rgba(15,118,110,.05);border-radius:0 14px 14px 0;margin:18px 0}
+    .exercise{margin-top:24px;padding:18px 20px;border-radius:18px;background:rgba(199,140,47,.08);border:1px solid rgba(199,140,47,.16)}
+    @media (max-width:1100px){.layout{grid-template-columns:1fr}.sidebar{position:static;height:auto}}
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="card">
+        <p class="eyebrow">Libro largo</p>
+        <h1>Volumen 4</h1>
+        <p class="muted">NLP, embeddings, transformers, visión por computador y transfer learning aplicado.</p>
+      </div>
+      <div class="card">
+        <h3>Tabla de contenido</h3>
+        <nav class="toc">
+          <a href="#cap13">Capitulo 13. NLP clasico y moderno</a>
+          <a href="#cap14">Capitulo 14. Embeddings y transformers</a>
+          <a href="#cap15">Capitulo 15. Vision por computador</a>
+          <a href="#cap16">Capitulo 16. Transfer learning y finetuning</a>
+        </nav>
+      </div>
+    </aside>
+    <main class="content">
+      <section class="hero">
+        <p class="eyebrow">Continuacion</p>
+        <h2>Trabajar con texto e imagen sin convertir la complejidad en una excusa para pensar menos</h2>
+        <p>En NLP y visión es fácil volverse impresionista: usar un modelo preentrenado, obtener un número y sentir que el problema está resuelto. Este volumen va en la dirección contraria. La meta es entender representación, pipeline, evaluación, costo, sesgos y decisiones de diseño cuando el dato ya no es una tabla simple.</p>
+      </section>
+
+      <section id="cap13" class="chapter">
+        <p class="eyebrow">Capitulo 13</p>
+        <h2>NLP clásico y moderno: de bolsas de palabras a pipelines de texto serios</h2>
+        <p>El texto es un tipo de dato engañoso. A simple vista parece natural y fácilmente interpretable por humanos, pero para una máquina es una secuencia de símbolos que requiere representación. Entender NLP empieza por entender una verdad simple: el modelo no “lee” lenguaje como tú. Aprende patrones en representaciones del lenguaje.</p>
+        <h3>13.1 Tareas de NLP realmente frecuentes</h3>
+        <ul>
+          <li>Clasificación de tickets o correos.</li>
+          <li>Análisis de sentimiento.</li>
+          <li>Extracción de entidades.</li>
+          <li>Búsqueda semántica.</li>
+          <li>Resumen.</li>
+          <li>Ruteo automático.</li>
+        </ul>
+        <p>Cada una tiene una definición de éxito distinta. No debes meterlas todas en la misma caja mental.</p>
+        <h3>13.2 Limpieza de texto con criterio</h3>
+        <p>La limpieza masiva puede destruir señal. Códigos de error, números, puntuación y mayúsculas pueden contener información útil. Limpia solo lo que puedas justificar.</p>
+        <h3>13.3 TF-IDF sigue siendo una referencia fuerte</h3>
+        <pre><code>from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.linear_model import LogisticRegression
+from sklearn.pipeline import Pipeline
+
+pipe = Pipeline([
+    ("tfidf", TfidfVectorizer(ngram_range=(1, 2), min_df=3, max_df=0.9)),
+    ("clf", LogisticRegression(max_iter=2000))
+])</code></pre>
+        <p>Este baseline resuelve más casos reales de los que muchos principiantes imaginan.</p>
+        <h3>13.4 Tutorial: clasificación de tickets de soporte</h3>
+        <ol>
+          <li>Define bien la taxonomía de etiquetas.</li>
+          <li>Une subject y body si tiene sentido.</li>
+          <li>Empieza con TF-IDF + logística.</li>
+          <li>Analiza confusiones entre clases.</li>
+          <li>Decide si el problema es de modelado o de mala taxonomía.</li>
+        </ol>
+        <div class="callout">
+          <p><strong>Lección fuerte:</strong> en NLP muchas mejoras vienen de redefinir etiquetas o mejorar datos, no de saltar directamente a un transformer enorme.</p>
+        </div>
+        <div class="exercise">
+          <h4>Ejercicio largo del capítulo</h4>
+          <p>Construye un clasificador textual real con TF-IDF como baseline. Debes comparar varias configuraciones de n-gramas y cerrar con una sección de errores donde distingas entre fallos del modelo y ambigüedades de etiquetas.</p>
+        </div>
+      </section>
+
+      <section id="cap14" class="chapter">
+        <p class="eyebrow">Capitulo 14</p>
+        <h2>Embeddings y transformers: representar significado sin perder disciplina experimental</h2>
+        <p>Los embeddings densos y los transformers hicieron posible representar texto con mucha más riqueza contextual. Pero una representación mejor no te exime de pensar. Debes seguir definiendo tarea, métricas, latencia y costo.</p>
+        <h3>14.1 Qué es un embedding</h3>
+        <p>Es una representación vectorial donde la geometría intenta capturar similitud semántica o funcional. Lo importante es que te permite pasar de símbolos discretos a un espacio continuo útil para clasificar, recuperar o agrupar.</p>
+        <h3>14.2 Pipeline práctico: embeddings más clasificador</h3>
+        <pre><code># esquema conceptual
+X_train_emb = embed(train_texts)
+X_valid_emb = embed(valid_texts)
+
+clf = LogisticRegression(max_iter=2000)
+clf.fit(X_train_emb, y_train)
+pred = clf.predict(X_valid_emb)</code></pre>
+        <p>Esta estrategia separa representación y decisión. Es una entrada excelente al uso moderno de embeddings.</p>
+        <h3>14.3 Transformers y representaciones contextuales</h3>
+        <p>La misma palabra puede significar cosas distintas según contexto. Los transformers ayudan precisamente porque la representación depende de la secuencia entera y no solo de una bolsa de tokens aislados.</p>
+        <h3>14.4 Tutorial: búsqueda semántica de FAQs</h3>
+        <pre><code>faq_embeddings = embed(faq_texts)
+query_embedding = embed(["como cambio la direccion de envio"])
+
+from sklearn.metrics.pairwise import cosine_similarity
+scores = cosine_similarity(query_embedding, faq_embeddings)[0]
+top_idx = scores.argsort()[::-1][:5]</code></pre>
+        <p>La evaluación correcta aquí no es “parece razonable”. Debes construir queries reales con documentos relevantes y medir recall@k o precision@k.</p>
+        <div class="exercise">
+          <h4>Ejercicio largo del capítulo</h4>
+          <p>Compara un baseline TF-IDF y un sistema con embeddings para búsqueda o clasificación. Tu informe debe incluir calidad, latencia, costo y qué sistema usarías realmente.</p>
+        </div>
+      </section>
+
+      <section id="cap15" class="chapter">
+        <p class="eyebrow">Capitulo 15</p>
+        <h2>Vision por computador: del dataset al error visualmente auditable</h2>
+        <p>Visión es una zona donde la calidad del dataset y del proceso de captura pesa muchísimo. Atajos visuales, fondos distintos, cámaras distintas o cambios de iluminación pueden llevar al modelo a aprender señales equivocadas.</p>
+        <h3>15.1 Tareas típicas</h3>
+        <ul>
+          <li>Clasificación.</li>
+          <li>Detección de objetos.</li>
+          <li>Segmentación.</li>
+          <li>Análisis de defectos.</li>
+        </ul>
+        <h3>15.2 Shortcut learning</h3>
+        <p>Si las imágenes positivas vienen de una cámara distinta, el modelo puede aprender la cámara y no el defecto. Este tipo de error es extremadamente frecuente.</p>
+        <h3>15.3 Tutorial conceptual: clasificación de defectos</h3>
+        <ol>
+          <li>Verifica consistencia de etiquetas.</li>
+          <li>Haz splits que eviten fuga por lote o por cámara.</li>
+          <li>Empieza con backbone preentrenado.</li>
+          <li>Analiza errores visualmente.</li>
+        </ol>
+        <pre><code># esquema conceptual
+model = pretrained_backbone()
+replace_classification_head(model, num_classes=2)
+train(model, train_loader, valid_loader)</code></pre>
+        <p>La revisión visual de errores es obligatoria. Si no miras imágenes fallidas, no entiendes realmente qué aprendió el sistema.</p>
+        <div class="exercise">
+          <h4>Ejercicio largo del capítulo</h4>
+          <p>Diseña una solución completa para un dataset visual. Debes incluir posibles shortcuts, estrategia de split, evaluación y revisión manual de errores.</p>
+        </div>
+      </section>
+
+      <section id="cap16" class="chapter">
+        <p class="eyebrow">Capitulo 16</p>
+        <h2>Transfer learning y fine-tuning: adaptar modelos sin perder control</h2>
+        <p>La práctica moderna rara vez empieza entrenando desde cero. Lo normal es partir de modelos preentrenados y decidir cuánto congelar, cuánto afinar y si el costo adicional vale la pena.</p>
+        <h3>16.1 Congelar vs afinar</h3>
+        <p>Congelar gran parte del backbone suele ser una estrategia inicial sana. Afinar completo puede dar mejora, pero también aumenta costo y riesgo de inestabilidad.</p>
+        <h3>16.2 Qué debes comparar siempre</h3>
+        <ul>
+          <li>Métrica final.</li>
+          <li>Tiempo de entrenamiento.</li>
+          <li>Costo de inferencia.</li>
+          <li>Robustez fuera de muestra.</li>
+          <li>Complejidad de mantenimiento.</li>
+        </ul>
+        <div class="callout">
+          <p><strong>Lección central del volumen:</strong> en NLP y visión, la representación importa muchísimo, pero la disciplina experimental sigue siendo la diferencia entre una demo atractiva y un sistema defendible.</p>
+        </div>
+        <div class="exercise">
+          <h4>Ejercicio largo del capítulo</h4>
+          <p>Elige una tarea de texto o visión y diseña un plan experimental con tres niveles: baseline clásico, modelo preentrenado congelado y fine-tuning. Debes justificar si el salto de complejidad merece la pena.</p>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

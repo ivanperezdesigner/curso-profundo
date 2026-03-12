@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Libro Profundo Vol. 5 - Recomendadores, Ranking y Sistemas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root { --paper:#fffaf2; --ink:#17231c; --muted:#596a60; --accent:#0f766e; --border:rgba(23,35,28,0.12); --shadow:0 20px 55px rgba(23,35,28,0.12); }
+    *{box-sizing:border-box} body{margin:0;color:var(--ink);font-family:"Source Serif 4",serif;background:radial-gradient(circle at top left,rgba(15,118,110,.12),transparent 24%),linear-gradient(180deg,#f7f4ed 0%,#efe7da 100%)}
+    .layout{display:grid;grid-template-columns:320px 1fr;min-height:100vh}.sidebar{position:sticky;top:0;height:100vh;overflow-y:auto;padding:24px;background:rgba(252,248,240,.94);border-right:1px solid var(--border)}.content{padding:32px}
+    .card,.hero,.chapter{background:var(--paper);border:1px solid rgba(255,255,255,.5);border-radius:24px;box-shadow:var(--shadow)}.card{padding:18px;margin-bottom:16px}.hero{padding:28px;margin-bottom:20px}.chapter{padding:34px;margin-bottom:22px}
+    .eyebrow{font-family:"IBM Plex Sans",sans-serif;text-transform:uppercase;letter-spacing:.18em;font-size:.72rem;color:var(--accent);font-weight:700}
+    h1,h2,h3,h4{font-family:"Source Serif 4",serif;margin-top:0} p,li{line-height:1.82;font-size:1.05rem}.muted{color:var(--muted);font-family:"IBM Plex Sans",sans-serif}
+    .toc{display:grid;gap:10px}.toc a{display:block;text-decoration:none;color:var(--ink);background:rgba(15,118,110,.06);border-radius:16px;padding:12px 14px;font-family:"IBM Plex Sans",sans-serif}
+    pre{background:#12211d;color:#eefcf8;border-radius:18px;padding:18px;overflow-x:auto;font-family:"IBM Plex Mono",monospace;font-size:.92rem;line-height:1.6} code{font-family:"IBM Plex Mono",monospace;font-size:.92em}
+    .callout{border-left:4px solid var(--accent);padding:10px 0 10px 16px;background:rgba(15,118,110,.05);border-radius:0 14px 14px 0;margin:18px 0}
+    .exercise{margin-top:24px;padding:18px 20px;border-radius:18px;background:rgba(199,140,47,.08);border:1px solid rgba(199,140,47,.16)}
+    @media (max-width:1100px){.layout{grid-template-columns:1fr}.sidebar{position:static;height:auto}}
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="card">
+        <p class="eyebrow">Libro largo</p>
+        <h1>Volumen 5</h1>
+        <p class="muted">Recomendadores, ranking, bandits y arquitecturas de decisión multietapa.</p>
+      </div>
+      <div class="card">
+        <h3>Tabla de contenido</h3>
+        <nav class="toc">
+          <a href="#cap17">Capitulo 17. Recomendadores</a>
+          <a href="#cap18">Capitulo 18. Ranking y retrieval</a>
+          <a href="#cap19">Capitulo 19. Bandits y exploracion</a>
+          <a href="#cap20">Capitulo 20. Sistemas compuestos</a>
+        </nav>
+      </div>
+    </aside>
+    <main class="content">
+      <section class="hero">
+        <p class="eyebrow">Continuacion</p>
+        <h2>Cuando el problema ya no es clasificar una fila sino decidir qué mostrar, a quién y en qué orden</h2>
+        <p>En recomendación y ranking el sistema interactúa con el usuario y altera los datos futuros. Aquí se vuelve central pensar en exposición, feedback sesgado, exploración y arquitecturas de múltiples etapas.</p>
+      </section>
+
+      <section id="cap17" class="chapter">
+        <p class="eyebrow">Capitulo 17</p>
+        <h2>Recomendadores: del problema de producto al motor de decisión</h2>
+        <p>Un recomendador no es solo “adivinar preferencias”. Es decidir qué items exponer, en qué contexto, con qué objetivo y bajo qué restricciones de negocio. La recomendación mezcla predicción, ranking, sesgo de exposición, diversidad, novedad y valor a largo plazo.</p>
+        <h3>17.1 Tipos de recomendadores</h3>
+        <ul>
+          <li>Popularidad.</li>
+          <li>Filtrado colaborativo.</li>
+          <li>Basado en contenido.</li>
+          <li>Híbridos.</li>
+        </ul>
+        <h3>17.2 Feedback sesgado por exposición</h3>
+        <p>Los usuarios interactúan con lo que ven, no con todo lo que existía para mostrar. Por eso un historial de clics o compras ya está filtrado por la política previa de exposición. Este sesgo debe estar siempre en tu cabeza.</p>
+        <h3>17.3 Baseline de co-ocurrencia</h3>
+        <pre><code>from collections import Counter
+
+cooc = Counter()
+for basket in baskets:
+    for i in basket:
+        for j in basket:
+            if i != j:
+                cooc[(i, j)] += 1</code></pre>
+        <p>Este baseline aparentemente simple puede ser sorprendentemente fuerte y además te ayuda a construir intuición sobre relaciones producto-producto.</p>
+        <div class="exercise">
+          <h4>Ejercicio largo del capítulo</h4>
+          <p>Diseña un recomendador en tres niveles: popularidad, co-ocurrencia y un enfoque más avanzado. Debes explicar qué aprende cada uno, qué sesgo arrastra y cómo lo evaluarías sin autoengañarte.</p>
+        </div>
+      </section>
+
+      <section id="cap18" class="chapter">
+        <p class="eyebrow">Capitulo 18</p>
+        <h2>Ranking y retrieval: ordenar bien es un problema propio</h2>
+        <p>Búsqueda, matching, anuncios y priorización son tareas donde el output correcto es una lista ordenada, no una clase aislada. Esto cambia métricas, arquitectura y decisiones de entrenamiento.</p>
+        <h3>18.1 Recuperación y re-ranking</h3>
+        <p>En sistemas grandes suele haber:</p>
+        <ol>
+          <li>Recuperación rápida de candidatos.</li>
+          <li>Filtrado.</li>
+          <li>Ranking más preciso.</li>
+          <li>Reglas finales de negocio.</li>
+        </ol>
+        <h3>18.2 Métricas de ranking</h3>
+        <ul>
+          <li>Precision@k</li>
+          <li>Recall@k</li>
+          <li>NDCG</li>
+          <li>MRR</li>
+        </ul>
+        <h3>18.3 Tutorial: priorización de leads</h3>
+        <pre><code>scores = model.predict_proba(X_today)[:, 1]
+ranking = pd.DataFrame({"lead_id": ids, "score": scores}).sort_values("score", ascending=False)
+top_100 = ranking.head(100)</code></pre>
+        <p>La pregunta útil no es “qué AUC tuvo el score”, sino “qué tan buenos fueron los primeros 100 leads que realmente atendimos”.</p>
+        <div class="exercise">
+          <h4>Ejercicio largo del capítulo</h4>
+          <p>Reformula un problema de clasificación como problema de ranking y compara cómo cambian las métricas y la decisión final cuando miras top-k en lugar de métricas globales.</p>
+        </div>
+      </section>
+
+      <section id="cap19" class="chapter">
+        <p class="eyebrow">Capitulo 19</p>
+        <h2>Multi-armed bandits: aprender mientras tomas decisiones</h2>
+        <p>Cuando la política de decisión afecta qué datos verás después, ya no estás solo en un escenario estático de predicción. Aparece el dilema exploración-explotación: aprovechar lo que hoy parece mejor o explorar opciones con potencial futuro.</p>
+        <h3>19.1 Epsilon-greedy</h3>
+        <pre><code>import random
+
+if random.random() < epsilon:
+    action = random.choice(actions)
+else:
+    action = best_action_so_far</code></pre>
+        <p>La idea es simple, pero la intuición es profunda: un poco de exploración puede evitar quedarte atrapado en una política mediocre.</p>
+        <h3>19.2 Qué debes pensar aquí</h3>
+        <ul>
+          <li>Qué es la recompensa.</li>
+          <li>Qué costo tiene explorar.</li>
+          <li>Qué costo tiene no explorar nada.</li>
+          <li>Qué horizonte temporal importa.</li>
+        </ul>
+        <div class="exercise">
+          <h4>Ejercicio largo del capítulo</h4>
+          <p>Diseña un escenario de bandit para banners, recomendaciones o layouts y define claramente recompensa, riesgo y política de exploración.</p>
+        </div>
+      </section>
+
+      <section id="cap20" class="chapter">
+        <p class="eyebrow">Capitulo 20</p>
+        <h2>Sistemas compuestos: arquitecturas de múltiples etapas</h2>
+        <p>Muchos productos reales usan varias piezas: recuperación, filtrado, ranking, reglas, límites legales, experimentación y monitoreo. Pensar por etapas es un cambio de nivel: deja de importar solo “qué modelo ganó” y empieza a importar cómo cooperan los componentes.</p>
+        <div class="callout">
+          <p><strong>Lección central del volumen:</strong> en recomendación y ranking, el sistema completo importa mucho más que un modelo aislado.</p>
+        </div>
+        <div class="exercise">
+          <h4>Ejercicio largo del capítulo</h4>
+          <p>Dibuja una arquitectura completa para un buscador, un recomendador o un sistema de leads. Debes explicar qué hace cada etapa, con qué métrica se evalúa y qué sesgo podría introducir.</p>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>
